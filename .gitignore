@@ -1,0 +1,18 @@
+# macOS artifacts
+.DS_Store
+*.swp
+*.tmp
+*.log
+
+# Personal & Game Data
+StardewValley/
+autostart/
+
+# Backups & Database caches
+*.bak
+karabiner/automatic_backups/
+zed/prompts/
+*.mdb
+
+# Temporary / Session data
+atuin/session/
