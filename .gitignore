@@ -4,8 +4,7 @@
 *.tmp
 *.log
 
-# Personal & Game Data
-StardewValley/
+# Personal & System
 autostart/
 
 # Backups & Database caches
