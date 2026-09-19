@@ -61,4 +61,5 @@ else
     COLOR="0xff6c7086" # Catppuccin Gray
 fi
 
+NAME="${NAME:-vpn}"
 sketchybar --set "$NAME" icon="$ICON" icon.color="$COLOR" label="$STATUS" label.color="$COLOR"
