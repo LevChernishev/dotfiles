@@ -30,7 +30,7 @@ gaps.inner.horizontal = 6
 gaps.inner.vertical =   6
 gaps.outer.left =       6
 gaps.outer.bottom =     6
-gaps.outer.top =        6
+gaps.outer.top =        38
 gaps.outer.right =      6
 
 # Автоматически плавающие окна (утилиты, настройки)
