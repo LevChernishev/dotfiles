@@ -19,7 +19,10 @@ for sid in 1 2 3 4 5 6 7 8 9; do
             background.color=0x22ffffff \
             icon.color=0xffcdd6f4)
     else
-        ARGS+=(--set "space.$sid" drawing=off)
+        ARGS+=(--set "space.$sid" \
+            drawing=off \
+            background.color=0x22ffffff \
+            icon.color=0xffcdd6f4)
     fi
 done
 
