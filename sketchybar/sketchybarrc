@@ -26,21 +26,24 @@ sketchybar --default \
   background.corner_radius=6 \
   background.height=24
 
-##### AeroSpace Event #####
+##### AeroSpace Event & Workspaces (1-9) #####
 sketchybar --add event aerospace_workspace_change
 
-##### Workspaces (1-9) - only active and non-empty are displayed #####
 for sid in 1 2 3 4 5 6 7 8 9; do
   sketchybar --add item "space.$sid" left \
-             --subscribe "space.$sid" aerospace_workspace_change \
              --set "space.$sid" \
                    icon="$sid" \
                    icon.padding_left=8 \
                    icon.padding_right=8 \
                    label.drawing=off \
-                   click_script="aerospace workspace $sid" \
-                   script="$PLUGIN_DIR/aerospace.sh $sid"
+                   click_script="aerospace workspace $sid"
 done
+
+# Single atomic listener for AeroSpace workspace changes (eliminates race conditions and stuck colors)
+sketchybar --add item aerospace_listener left \
+           --set aerospace_listener drawing=off \
+                 script="$PLUGIN_DIR/aerospace.sh" \
+           --subscribe aerospace_listener aerospace_workspace_change front_app_switched
 
 ##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
 
@@ -90,15 +93,15 @@ sketchybar --add item keyboard right \
                  script="$PLUGIN_DIR/keyboard.sh" \
            --subscribe keyboard input_change
 
-# 5. VPN Status (sing-box)
+# 5. VPN Status (Shadowrocket)
 sketchybar --add item vpn right \
            --set vpn \
                  update_freq=3 \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
-                 script="$PLUGIN_DIR/vpn.sh" \
-           --subscribe vpn mouse.clicked
+                 click_script="$PLUGIN_DIR/vpn.sh toggle; sketchybar --update" \
+                 script="$PLUGIN_DIR/vpn.sh"
 
 ##### Update all #####
 sketchybar --update

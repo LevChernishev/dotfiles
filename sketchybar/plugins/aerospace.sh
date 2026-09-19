@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 
-# $1 is workspace ID
-if [ -z "$FOCUSED_WORKSPACE" ]; then
-    FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)
-fi
+FOCUSED="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused 2>/dev/null)}"
+OCCUPIED=($(aerospace list-workspaces --monitor all --empty no 2>/dev/null))
 
-OCCUPIED=$(aerospace list-workspaces --monitor all --empty no 2>/dev/null | grep -x "$1")
+ARGS=()
 
-if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    sketchybar --set "$NAME" \
-        drawing=on \
-        background.drawing=on \
-        background.color=0xffcba6f7 \
-        icon.color=0xff11111b
-elif [ -n "$OCCUPIED" ]; then
-    sketchybar --set "$NAME" \
-        drawing=on \
-        background.drawing=on \
-        background.color=0x33ffffff \
-        icon.color=0xffcdd6f4
-else
-    # Hide empty inactive workspaces to keep the bar ultra-clean
-    sketchybar --set "$NAME" drawing=off
-fi
+for sid in 1 2 3 4 5 6 7 8 9; do
+    if [ "$sid" = "$FOCUSED" ]; then
+        ARGS+=(--set "space.$sid" \
+            drawing=on \
+            background.drawing=on \
+            background.color=0xffcba6f7 \
+            icon.color=0xff11111b)
+    elif [[ " ${OCCUPIED[*]} " =~ " ${sid} " ]]; then
+        ARGS+=(--set "space.$sid" \
+            drawing=on \
+            background.drawing=on \
+            background.color=0x22ffffff \
+            icon.color=0xffcdd6f4)
+    else
+        ARGS+=(--set "space.$sid" drawing=off)
+    fi
+done
+
+sketchybar "${ARGS[@]}"
