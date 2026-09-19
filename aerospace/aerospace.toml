@@ -7,8 +7,11 @@ config-version = 2
 start-at-login = true
 auto-reload-config = true
 
-# Интеграция с SketchyBar
-exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+# Интеграция с SketchyBar (мгновенное переключение 1-9 без сабшеллов и опроса CLI)
+exec-on-workspace-change = [
+    '/bin/bash', '-c',
+    'ARGS=(); [ -n "$AEROSPACE_PREV_WORKSPACE" ] && ARGS+=(--set "space.$AEROSPACE_PREV_WORKSPACE" background.color=0x22ffffff icon.color=0xffcdd6f4); ARGS+=(--set "space.$AEROSPACE_FOCUSED_WORKSPACE" background.color=0xffcba6f7 icon.color=0xff11111b); sketchybar "${ARGS[@]}"'
+]
 
 # Нормализация контейнеров
 enable-normalization-flatten-containers = true

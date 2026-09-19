@@ -26,24 +26,29 @@ sketchybar --default \
   background.corner_radius=6 \
   background.height=24
 
-##### AeroSpace Event & Workspaces (1-9) #####
-sketchybar --add event aerospace_workspace_change
+##### AeroSpace Workspaces (1-9) #####
+FOCUSED="$(aerospace list-workspaces --focused 2>/dev/null)"
+[ -z "$FOCUSED" ] && FOCUSED="1"
 
 for sid in 1 2 3 4 5 6 7 8 9; do
+  if [ "$sid" = "$FOCUSED" ]; then
+    BG_COLOR="0xffcba6f7"
+    ICON_COLOR="0xff11111b"
+  else
+    BG_COLOR="0x22ffffff"
+    ICON_COLOR="0xffcdd6f4"
+  fi
   sketchybar --add item "space.$sid" left \
              --set "space.$sid" \
                    icon="$sid" \
                    icon.padding_left=8 \
                    icon.padding_right=8 \
                    label.drawing=off \
+                   background.drawing=on \
+                   background.color="$BG_COLOR" \
+                   icon.color="$ICON_COLOR" \
                    click_script="aerospace workspace $sid"
 done
-
-# Single atomic listener for AeroSpace workspace changes (purely event-driven, zero polling)
-sketchybar --add item aerospace_listener left \
-           --set aerospace_listener drawing=off \
-                 script="$PLUGIN_DIR/aerospace.sh" \
-           --subscribe aerospace_listener aerospace_workspace_change
 
 ##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
 
