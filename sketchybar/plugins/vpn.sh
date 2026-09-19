@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+if [ "$1" = "toggle" ]; then
+    if pgrep -x Shadowrocket >/dev/null; then
+        osascript -e 'tell application "Shadowrocket" to quit' 2>/dev/null
+    else
+        open -a Shadowrocket
+    fi
+    sleep 0.3
+fi
+
 if scutil --nc list | grep -q "(Connected)"; then
     STATUS="ON"
     ICON="󰖂"

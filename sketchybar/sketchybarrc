@@ -97,7 +97,7 @@ sketchybar --add item vpn right \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
-                 click_script="open -a Shadowrocket" \
+                 click_script="$PLUGIN_DIR/vpn.sh toggle; sketchybar --update" \
                  script="$PLUGIN_DIR/vpn.sh"
 
 ##### Update all #####
