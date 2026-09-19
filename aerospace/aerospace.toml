@@ -7,6 +7,9 @@ config-version = 2
 start-at-login = true
 auto-reload-config = true
 
+# Интеграция с SketchyBar
+exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+
 # Нормализация контейнеров
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
