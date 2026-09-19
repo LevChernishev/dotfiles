@@ -11,16 +11,18 @@ sketchybar --bar \
   padding_left=10 \
   padding_right=10 \
   y_offset=0 \
-  topmost=window
+  topmost=off
 
 ##### Default Properties #####
 sketchybar --default \
   padding_left=3 \
   padding_right=3 \
   icon.font="FiraCode Nerd Font:Bold:13.0" \
-  label.font="FiraCode Nerd Font:Bold:12.0" \
+  label.font="FiraCode Nerd Font:Medium:12.0" \
   icon.color=0xffcdd6f4 \
   label.color=0xffcdd6f4 \
+  background.drawing=on \
+  background.color=0x22ffffff \
   background.corner_radius=6 \
   background.height=24
 
@@ -40,27 +42,63 @@ for sid in 1 2 3 4 5 6 7 8 9; do
                    script="$PLUGIN_DIR/aerospace.sh $sid"
 done
 
-##### Input Language Indicator #####
+##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
+
+# 1. Clock (far right)
+sketchybar --add item clock right \
+           --set clock \
+                 update_freq=10 \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xffcba6f7 \
+                 script="$PLUGIN_DIR/clock.sh"
+
+# 2. Battery
+sketchybar --add item battery right \
+           --set battery \
+                 update_freq=60 \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 script="$PLUGIN_DIR/battery.sh" \
+           --subscribe battery system_woke power_source_change
+
+# 3. Volume
+sketchybar --add item volume right \
+           --set volume \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 script="$PLUGIN_DIR/volume.sh" \
+                 click_script="osascript -e 'set volume output muted not (output muted of (get volume settings))'; sketchybar --update" \
+           --subscribe volume volume_change
+
+# 4. Keyboard Input Source
 sketchybar --add event input_change AppleSelectedInputSourcesChangedNotification
 
 sketchybar --add item keyboard right \
            --set keyboard \
                  icon=" " \
-                 icon.font="FiraCode Nerd Font:Bold:13.0" \
                  label.font="FiraCode Nerd Font:Bold:12.0" \
-                 label.color=0xff11111b \
-                 icon.color=0xff11111b \
-                 background.drawing=on \
-                 background.color=0xffcba6f7 \
-                 background.corner_radius=6 \
-                 background.height=24 \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
+                 icon.color=0xfffab387 \
                  update_freq=1 \
-                 click_script="$PLUGIN_DIR/keyboard.sh toggle" \
+                 click_script="$PLUGIN_DIR/keyboard.sh toggle; sketchybar --update" \
                  script="$PLUGIN_DIR/keyboard.sh" \
            --subscribe keyboard input_change
+
+# 5. VPN Status (Shadowrocket)
+sketchybar --add item vpn right \
+           --set vpn \
+                 update_freq=3 \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 click_script="open -a Shadowrocket" \
+                 script="$PLUGIN_DIR/vpn.sh"
 
 ##### Update all #####
 sketchybar --update

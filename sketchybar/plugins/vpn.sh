@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if scutil --nc list | grep -q "(Connected)"; then
+    STATUS="ON"
+    ICON="󰖂"
+    COLOR="0xffa6e3a1"
+else
+    STATUS="OFF"
+    ICON="󰖂"
+    COLOR="0xff6c7086"
+fi
+
+sketchybar --set "$NAME" icon="$ICON" icon.color="$COLOR" label="$STATUS" label.color="$COLOR"
