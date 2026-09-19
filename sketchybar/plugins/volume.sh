@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-if [ "$SENDER" = "volume_change" ]; then
-    VOLUME="$INFO"
-else
-    VOLUME=$(osascript -e 'output volume of (get volume settings)' 2>/dev/null)
+BIN_DIR="$CONFIG_DIR/bin"
+read -r VOLUME MUTED < <("$BIN_DIR/get_volume" 2>/dev/null)
+
+if [ -z "$VOLUME" ]; then
+    VOLUME=50
+    MUTED=0
 fi
 
-MUTED=$(osascript -e 'output muted of (get volume settings)' 2>/dev/null)
-
-if [ "$MUTED" = "true" ] || [ "$VOLUME" = "0" ]; then
+if [ "$MUTED" = "1" ] || [ "$VOLUME" = "0" ]; then
     ICON="󰖁"
     COLOR="0xff6c7086"
 else
@@ -20,4 +20,5 @@ else
     esac
 fi
 
+NAME="${NAME:-volume}"
 sketchybar --set "$NAME" icon="$ICON" label="${VOLUME}%" icon.color="$COLOR"

@@ -39,11 +39,11 @@ for sid in 1 2 3 4 5 6 7 8 9; do
                    click_script="aerospace workspace $sid"
 done
 
-# Single atomic listener for AeroSpace workspace changes (eliminates race conditions and stuck colors)
+# Single atomic listener for AeroSpace workspace changes (purely event-driven, zero polling)
 sketchybar --add item aerospace_listener left \
            --set aerospace_listener drawing=off \
                  script="$PLUGIN_DIR/aerospace.sh" \
-           --subscribe aerospace_listener aerospace_workspace_change front_app_switched
+           --subscribe aerospace_listener aerospace_workspace_change
 
 ##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
 
@@ -74,10 +74,10 @@ sketchybar --add item volume right \
                  icon.padding_right=4 \
                  label.padding_right=8 \
                  script="$PLUGIN_DIR/volume.sh" \
-                 click_script="osascript -e 'set volume output muted not (output muted of (get volume settings))'; sketchybar --update" \
+                 click_script="$CONFIG_DIR/bin/get_volume toggle; $PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change
 
-# 4. Keyboard Input Source
+# 4. Keyboard Input Source (100% event-driven, zero polling)
 sketchybar --add event input_change AppleSelectedInputSourcesChangedNotification
 
 sketchybar --add item keyboard right \
@@ -88,7 +88,6 @@ sketchybar --add item keyboard right \
                  icon.padding_right=4 \
                  label.padding_right=8 \
                  icon.color=0xfffab387 \
-                 update_freq=1 \
                  click_script="$PLUGIN_DIR/keyboard.sh toggle; sketchybar --update" \
                  script="$PLUGIN_DIR/keyboard.sh" \
            --subscribe keyboard input_change
@@ -96,7 +95,7 @@ sketchybar --add item keyboard right \
 # 5. VPN Status (Shadowrocket)
 sketchybar --add item vpn right \
            --set vpn \
-                 update_freq=3 \
+                 update_freq=10 \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
