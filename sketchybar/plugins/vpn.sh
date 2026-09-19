@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 
 API="http://127.0.0.1:9090"
+CACHE_FILE="/tmp/sing-box-last-proxy"
+
+format_server_name() {
+    local raw="$1"
+    case "$raw" in
+        "Sweden VLESS-lev") echo "SE · VLESS" ;;
+        "Sweden Hysteria2") echo "SE · Hy2" ;;
+        "direct"|"")        echo "OFF" ;;
+        *)
+            local cleaned="$raw"
+            cleaned="${cleaned//-lev/}"
+            cleaned="${cleaned//Sweden/SE}"
+            cleaned="${cleaned//Germany/DE}"
+            cleaned="${cleaned//Finland/FI}"
+            cleaned="${cleaned//Netherlands/NL}"
+            echo "$cleaned"
+            ;;
+    esac
+}
 
 handle_toggle() {
     local button="$1"
@@ -9,22 +28,35 @@ handle_toggle() {
 
     if [ -n "$current" ] && [ "$current" != "null" ]; then
         if [ "$button" = "right" ]; then
-            # Right-click: switch between VLESS and Hysteria2
-            if [ "$current" = "Sweden VLESS-lev" ]; then
-                curl -s -X PUT "$API/proxies/proxy" -d '{"name":"Sweden Hysteria2"}' >/dev/null
-            else
-                curl -s -X PUT "$API/proxies/proxy" -d '{"name":"Sweden VLESS-lev"}' >/dev/null
+            # Right-click: cycle to next server among all non-direct proxies
+            local all_proxies
+            all_proxies=($(curl -s --max-time 0.5 "$API/proxies/proxy" 2>/dev/null | jq -r '.all[]' | grep -v '^direct$'))
+            local count=${#all_proxies[@]}
+            if [ "$count" -gt 1 ]; then
+                local next_proxy="${all_proxies[0]}"
+                for i in "${!all_proxies[@]}"; do
+                    if [ "${all_proxies[$i]}" = "$current" ]; then
+                        local next_idx=$(( (i + 1) % count ))
+                        next_proxy="${all_proxies[$next_idx]}"
+                        break
+                    fi
+                done
+                curl -s -X PUT "$API/proxies/proxy" -d "{\"name\":\"$next_proxy\"}" >/dev/null
+                echo "$next_proxy" > "$CACHE_FILE"
             fi
         else
             # Left-click: toggle ON / OFF
             if [ "$current" = "direct" ]; then
-                curl -s -X PUT "$API/proxies/proxy" -d '{"name":"Sweden VLESS-lev"}' >/dev/null
+                local last_proxy="Sweden VLESS-lev"
+                [ -f "$CACHE_FILE" ] && last_proxy=$(cat "$CACHE_FILE")
+                curl -s -X PUT "$API/proxies/proxy" -d "{\"name\":\"$last_proxy\"}" >/dev/null
             else
+                echo "$current" > "$CACHE_FILE"
                 curl -s -X PUT "$API/proxies/proxy" -d '{"name":"direct"}' >/dev/null
             fi
         fi
     else
-        # If sing-box not running yet, toggle Shadowrocket
+        # Fallback to Shadowrocket if sing-box is not running
         if pgrep -x Shadowrocket >/dev/null; then
             osascript -e 'tell application "Shadowrocket" to quit' 2>/dev/null
         else
@@ -43,7 +75,7 @@ CURRENT=$(curl -s --max-time 0.3 "$API/proxies/proxy" 2>/dev/null | jq -r .now 2
 
 if [ -n "$CURRENT" ] && [ "$CURRENT" != "null" ]; then
     if [ "$CURRENT" != "direct" ]; then
-        STATUS="ON"
+        STATUS=$(format_server_name "$CURRENT")
         ICON="󰖂"
         COLOR="0xffa6e3a1" # Catppuccin Green
     else
@@ -52,7 +84,7 @@ if [ -n "$CURRENT" ] && [ "$CURRENT" != "null" ]; then
         COLOR="0xff6c7086" # Catppuccin Gray
     fi
 elif scutil --nc list | grep -q "(Connected)"; then
-    STATUS="ON"
+    STATUS="SR (ON)"
     ICON="󰖂"
     COLOR="0xffa6e3a1" # Catppuccin Green
 else
