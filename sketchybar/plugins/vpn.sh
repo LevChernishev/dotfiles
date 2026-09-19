@@ -29,8 +29,11 @@ handle_toggle() {
     if [ -n "$current" ] && [ "$current" != "null" ]; then
         if [ "$button" = "right" ]; then
             # Right-click: cycle to next server among all non-direct proxies
-            local all_proxies
-            all_proxies=($(curl -s --max-time 0.5 "$API/proxies/proxy" 2>/dev/null | jq -r '.all[]' | grep -v '^direct$'))
+            local all_proxies=()
+            while IFS= read -r line; do
+                [ -n "$line" ] && all_proxies+=("$line")
+            done < <(curl -s --max-time 0.5 "$API/proxies/proxy" 2>/dev/null | jq -r '.all[]' | grep -v '^direct$')
+
             local count=${#all_proxies[@]}
             if [ "$count" -gt 1 ]; then
                 local next_proxy="${all_proxies[0]}"
@@ -56,7 +59,7 @@ handle_toggle() {
             fi
         fi
     else
-        # Fallback to Shadowrocket if sing-box is not running
+        # Fallback: if sing-box is not running, toggle Shadowrocket
         if pgrep -x Shadowrocket >/dev/null; then
             osascript -e 'tell application "Shadowrocket" to quit' 2>/dev/null
         else
@@ -66,11 +69,17 @@ handle_toggle() {
     sleep 0.1
 }
 
-if [ "$1" = "toggle" ]; then
-    handle_toggle "$BUTTON"
+# Handle click events from mouse.clicked or toggle argument
+if [ "$SENDER" = "mouse.clicked" ] || [ "$1" = "toggle" ]; then
+    btn="${BUTTON:-left}"
+    if [ -n "$INFO" ]; then
+        parsed_btn=$(echo "$INFO" | jq -r .button 2>/dev/null)
+        [ -n "$parsed_btn" ] && [ "$parsed_btn" != "null" ] && btn="$parsed_btn"
+    fi
+    handle_toggle "$btn"
 fi
 
-# Check sing-box first
+# Query current status from sing-box API
 CURRENT=$(curl -s --max-time 0.3 "$API/proxies/proxy" 2>/dev/null | jq -r .now 2>/dev/null)
 
 if [ -n "$CURRENT" ] && [ "$CURRENT" != "null" ]; then

@@ -90,15 +90,15 @@ sketchybar --add item keyboard right \
                  script="$PLUGIN_DIR/keyboard.sh" \
            --subscribe keyboard input_change
 
-# 5. VPN Status (Shadowrocket)
+# 5. VPN Status (sing-box)
 sketchybar --add item vpn right \
            --set vpn \
                  update_freq=3 \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
-                 click_script="$PLUGIN_DIR/vpn.sh toggle; sketchybar --update" \
-                 script="$PLUGIN_DIR/vpn.sh"
+                 script="$PLUGIN_DIR/vpn.sh" \
+           --subscribe vpn mouse.clicked
 
 ##### Update all #####
 sketchybar --update
