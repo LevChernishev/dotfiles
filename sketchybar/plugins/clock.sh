@@ -3,23 +3,18 @@
 NAME="${NAME:-clock}"
 
 if [ "$1" = "toggle" ] || [ "$1" = "update" ]; then
-    CAL_HEADER="$(date '+%A, %d %B %Y')"
-    args=(--set cal.header label="$CAL_HEADER")
+    DATE_RU=$(LC_TIME=ru_RU.UTF-8 date '+%A, %d %B %Y' 2>/dev/null)
+    if [ -n "$DATE_RU" ]; then
+        CAP_DATE="$(tr '[:lower:]' '[:upper:]' <<< "${DATE_RU:0:1}")${DATE_RU:1}"
+    else
+        CAP_DATE="$(date '+%A, %d %B %Y')"
+    fi
+    WEEK=$(date '+%-V' 2>/dev/null || date '+%V')
+    DOY=$(date '+%-j' 2>/dev/null || date '+%j')
+    SUB_TEXT="${WEEK}-я неделя • ${DOY}-й день года"
 
-    idx=1
-    while IFS= read -r line; do
-        if [ -n "$line" ] && [ "$idx" -le 8 ]; then
-            args+=(--set "cal.r.$idx" label="$line" drawing=on)
-            idx=$((idx+1))
-        fi
-    done < <(cal | sed 's/_ //g')
-
-    while [ "$idx" -le 8 ]; do
-        args+=(--set "cal.r.$idx" drawing=off)
-        idx=$((idx+1))
-    done
-
-    sketchybar "${args[@]}"
+    sketchybar --set cal.header label="$CAP_DATE" \
+               --set cal.sub label="$SUB_TEXT"
     exit 0
 fi
 
