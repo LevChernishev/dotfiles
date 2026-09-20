@@ -128,6 +128,8 @@ run = 'layout floating'
     alt-comma = 'layout accordion horizontal vertical'
     alt-shift-space = 'layout floating tiling'
     alt-f = 'fullscreen'
+    alt-shift-f = 'macos-native-fullscreen'
+    alt-b = 'balance-sizes'
 
     # Изменение размера
     alt-minus = 'resize smart -50'
