@@ -3,6 +3,7 @@ bitrate = 320
 gapless = true
 audio_cache = true
 notify = true
+ap_port = 443
 
 [theme]
 background = "#1e1e2e"
