@@ -22,7 +22,7 @@ truncation_length = 4
 truncation_symbol = "…/"
 
 [git_branch]
-symbol = " "
+symbol = " "
 style = "bold #cba6f7"
 
 [git_status]
@@ -35,7 +35,7 @@ style = "bold #f9e2af"
 format = "took [$duration]($style) "
 
 [python]
-symbol = " "
+symbol = "󰌠 "
 style = "bold #f9e2af"
 
 [palettes.catppuccin_mocha]

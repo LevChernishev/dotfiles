@@ -31,12 +31,12 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Control Spotify in Safari via Media Keys (without Apple Music)",
+                        "description": "Control Spotify in Chrome PWA via Media Keys (without Apple Music)",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "consumer_key_code": "play_or_pause",
+                                "consumer_key_code": "play_or_pause",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -45,7 +45,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_safari.scpt playpause"
+                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause"
                                     }
                                 ]
                             },
@@ -61,7 +61,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_safari.scpt next"
+                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt next"
                                     }
                                 ]
                             },
@@ -77,7 +77,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_safari.scpt previous"
+                                        "shell_command": "osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt previous"
                                     }
                                 ]
                             }

@@ -10,7 +10,7 @@ auto-reload-config = true
 # Интеграция с SketchyBar (мгновенное переключение 1-9 без сабшеллов и опроса CLI)
 exec-on-workspace-change = [
     '/bin/bash', '-c',
-    'ARGS=(); [ -n "$AEROSPACE_PREV_WORKSPACE" ] && ARGS+=(--set "space.$AEROSPACE_PREV_WORKSPACE" background.color=0x22ffffff icon.color=0xffcdd6f4); ARGS+=(--set "space.$AEROSPACE_FOCUSED_WORKSPACE" background.color=0xffcba6f7 icon.color=0xff11111b); sketchybar "${ARGS[@]}"'
+    'ARGS=(); [ -n "$AEROSPACE_PREV_WORKSPACE" ] && ARGS+=(--set "space.$AEROSPACE_PREV_WORKSPACE" background.color=0xee181825 icon.color=0xffcdd6f4 background.border_width=1); ARGS+=(--set "space.$AEROSPACE_FOCUSED_WORKSPACE" background.color=0xffcba6f7 icon.color=0xff11111b background.border_width=0); sketchybar "${ARGS[@]}"'
 ]
 
 # Нормализация контейнеров
@@ -85,6 +85,29 @@ run = 'layout floating'
 if.app-id = 'com.apple.QuickTimePlayerX'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.DiskUtility'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'org.telegram.desktop'
+if.window-title-regex-substring = '(Media viewer|Voice Call|Video Call)'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+if.window-title-regex-substring = '(Media viewer|Voice Call|Video Call)'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+if.window-title-regex-substring = 'Picture in picture'
+run = 'layout floating'
+
 # Основные горячие клавиши (режим main)
 [mode.main.binding]
 
@@ -134,7 +157,12 @@ run = 'layout floating'
 
     # Быстрое переключение назад/вперед
     alt-tab = 'workspace-back-and-forth'
+    alt-backtick = 'workspace-back-and-forth'
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # Scratchpad (быстрый стол S для фоновых утилит/заметок)
+    alt-s = 'workspace S'
+    alt-shift-s = 'move-node-to-workspace S'
 
     # Перезагрузка конфигурации
     alt-shift-r = 'reload-config'

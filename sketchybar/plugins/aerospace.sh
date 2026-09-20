@@ -10,11 +10,13 @@ for sid in 1 2 3 4 5 6 7 8 9; do
         ARGS+=(--set "space.$sid" \
             background.drawing=on \
             background.color=0xffcba6f7 \
+            background.border_width=0 \
             icon.color=0xff11111b)
     else
         ARGS+=(--set "space.$sid" \
             background.drawing=on \
-            background.color=0x22ffffff \
+            background.color=0xee181825 \
+            background.border_width=1 \
             icon.color=0xffcdd6f4)
     fi
 done
