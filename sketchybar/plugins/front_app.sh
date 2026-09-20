@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 APP="${INFO:-}"
+[[ "$APP" == \{* ]] && APP=""
 
 if [ -z "$APP" ]; then
     APP="$(osascript -e 'tell application "System Events" to get name of first process whose frontmost is true' 2>/dev/null)"

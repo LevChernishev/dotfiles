@@ -7,10 +7,9 @@ config-version = 2
 start-at-login = true
 auto-reload-config = true
 
-# Интеграция с SketchyBar (мгновенное переключение 1-9 и S с умным Dimming)
+# Интеграция с SketchyBar (мгновенное переключение 1-9 и S с умным Dimming за 2мс)
 exec-on-workspace-change = [
-    '/bin/bash', '-c',
-    '/Users/lev/.config/sketchybar/plugins/space_windows.sh'
+    '/Users/lev/.config/sketchybar/bin/space_switch'
 ]
 
 # Нормализация контейнеров
@@ -147,15 +146,15 @@ run = 'layout floating'
     alt-9 = 'workspace 9'
 
     # Перенос окна на выбранное рабочее пространство
-    alt-shift-1 = 'move-node-to-workspace 1'
-    alt-shift-2 = 'move-node-to-workspace 2'
-    alt-shift-3 = 'move-node-to-workspace 3'
-    alt-shift-4 = 'move-node-to-workspace 4'
-    alt-shift-5 = 'move-node-to-workspace 5'
-    alt-shift-6 = 'move-node-to-workspace 6'
-    alt-shift-7 = 'move-node-to-workspace 7'
-    alt-shift-8 = 'move-node-to-workspace 8'
-    alt-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-1 = ['move-node-to-workspace 1', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-2 = ['move-node-to-workspace 2', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-3 = ['move-node-to-workspace 3', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-4 = ['move-node-to-workspace 4', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-5 = ['move-node-to-workspace 5', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-6 = ['move-node-to-workspace 6', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-7 = ['move-node-to-workspace 7', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-8 = ['move-node-to-workspace 8', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
+    alt-shift-9 = ['move-node-to-workspace 9', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
 
     # Быстрое переключение назад/вперед
     alt-tab = 'workspace-back-and-forth'
@@ -164,7 +163,7 @@ run = 'layout floating'
 
     # Scratchpad (быстрый стол S для фоновых утилит/заметок)
     alt-s = 'workspace S'
-    alt-shift-s = 'move-node-to-workspace S'
+    alt-shift-s = ['move-node-to-workspace S', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh']
 
     # Перезагрузка конфигурации
     alt-shift-r = 'reload-config'

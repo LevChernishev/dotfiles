@@ -31,6 +31,8 @@ while IFS='|' read -r ws app; do
   fi
 done < <(/opt/homebrew/bin/aerospace list-windows --all --format '%{workspace}|%{app-name}' 2>/dev/null)
 
+echo " ${(k)ws_icons} " > /tmp/sketchybar_occupied_spaces
+
 FOCUSED="${AEROSPACE_FOCUSED_WORKSPACE:-$(/opt/homebrew/bin/aerospace list-workspaces --focused 2>/dev/null)}"
 [[ -z "$FOCUSED" ]] && FOCUSED="1"
 
