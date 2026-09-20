@@ -25,7 +25,7 @@ if [ "$FETCH_NEW" -eq 1 ]; then
 fi
 
 if [ -f "$CACHE_FILE" ]; then
-    WEATHER=$(cat "$CACHE_FILE" | xargs)
+    read -r WEATHER < "$CACHE_FILE"
     if [ -n "$WEATHER" ]; then
         sketchybar --set weather drawing=on label="$WEATHER"
         exit 0

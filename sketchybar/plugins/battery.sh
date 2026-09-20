@@ -3,16 +3,17 @@
 NAME="${NAME:-battery}"
 
 if [ "$1" = "details" ] || [ "$1" = "toggle" ]; then
-    BD=$(ioreg -r -c AppleSmartBattery -d 1 | grep '"BatteryData"')
+    BAT_RAW=$(ioreg -r -c AppleSmartBattery -d 1)
+    BD=$(echo "$BAT_RAW" | grep '"BatteryData"')
     FCC=$(echo "$BD" | sed -E 's/.*"FullChargeCapacity"=([0-9]+).*/\1/')
     DC=$(echo "$BD" | sed -E 's/.*"DesignCapacity"=([0-9]+).*/\1/')
-    CYCLES=$(ioreg -r -c AppleSmartBattery -d 1 | grep '"CycleCount" =' | head -1 | awk '{print $3}')
+    CYCLES=$(echo "$BAT_RAW" | grep '"CycleCount" =' | head -1 | awk '{print $3}')
     if [ -n "$DC" ] && [ "$DC" -gt 0 ]; then
         HEALTH=$(( FCC * 100 / DC ))
     else
         HEALTH=100
     fi
-    
+
     BATT_INFO=$(pmset -g batt 2>/dev/null)
     if echo "$BATT_INFO" | grep -qi 'AC Power'; then
         CHARGING_STATUS="Питание: Сеть (AC)"
@@ -27,7 +28,8 @@ if [ "$1" = "details" ] || [ "$1" = "toggle" ]; then
 fi
 
 BATT_INFO=$(pmset -g batt 2>/dev/null)
-PERCENTAGE=$(echo "$BATT_INFO" | grep -Eo "\d+%" | cut -d% -f1 | head -1)
+PERCENTAGE=$(echo "$BATT_INFO" | grep -Eo '[0-9]+%' | head -1)
+PERCENTAGE="${PERCENTAGE%\%}"
 AC_POWER=$(echo "$BATT_INFO" | grep -i 'AC Power')
 
 if [ -z "$PERCENTAGE" ]; then
