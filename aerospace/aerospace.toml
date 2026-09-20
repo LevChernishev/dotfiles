@@ -7,11 +7,8 @@ config-version = 2
 start-at-login = true
 auto-reload-config = true
 
-# Интеграция с SketchyBar (мгновенное переключение 1-9 без сабшеллов и опроса CLI)
-exec-on-workspace-change = [
-    '/bin/bash', '-c',
-    'ARGS=(); [ -n "$AEROSPACE_PREV_WORKSPACE" ] && ARGS+=(--set "space.$AEROSPACE_PREV_WORKSPACE" background.color=0xee181825 icon.color=0xffcdd6f4 background.border_width=1); ARGS+=(--set "space.$AEROSPACE_FOCUSED_WORKSPACE" background.color=0xffcba6f7 icon.color=0xff11111b background.border_width=0); sketchybar "${ARGS[@]}"'
-]
+# Интеграция с SketchyBar (нативный C-микрохелпер с откликом < 1 мс)
+exec-on-workspace-change = ['/Users/lev/.config/sketchybar/bin/space_switch']
 
 # Нормализация контейнеров
 enable-normalization-flatten-containers = true

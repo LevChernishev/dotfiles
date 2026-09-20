@@ -67,6 +67,20 @@ sketchybar --add item front_app left \
                  script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
+##### Spotify (PWA in Chrome) #####
+sketchybar --add item spotify left \
+           --set spotify \
+                 icon="󰓇" \
+                 icon.color=0xffa6e3a1 \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 label.color=0xffcdd6f4 \
+                 drawing=off \
+                 update_freq=5 \
+                 click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause; sleep 0.2; $PLUGIN_DIR/spotify.sh" \
+                 script="$PLUGIN_DIR/spotify.sh"
+
 ##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
 
 # 1. Clock (far right)
@@ -146,3 +160,4 @@ sketchybar --add item cpu right \
 
 ##### Update all #####
 sketchybar --update
+"$PLUGIN_DIR/space_windows.sh" &

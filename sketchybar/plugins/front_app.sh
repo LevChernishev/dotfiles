@@ -26,3 +26,4 @@ case "$APP" in
 esac
 
 sketchybar --set front_app icon="$ICON" label="$APP"
+"$CONFIG_DIR/plugins/space_windows.sh" &
