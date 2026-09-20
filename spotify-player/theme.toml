@@ -1,0 +1,33 @@
+[[themes]]
+name = "catppuccin_mocha"
+[themes.palette]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+black = "#45475a"
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+magenta = "#cba6f7"
+cyan = "#94e2d5"
+white = "#a6adc8"
+bright_black = "#585b70"
+bright_red = "#f37799"
+bright_green = "#89d88b"
+bright_yellow = "#ebd391"
+bright_blue = "#74a8fc"
+bright_magenta = "#f2aede"
+bright_cyan = "#6bd7ca"
+bright_white = "#bac2de"
+
+[themes.component_style]
+block_title = { fg = "#cba6f7", modifiers = ["Bold"] }
+border = { fg = "#585b70" }
+playback_status = { fg = "#a6e3a1", modifiers = ["Bold"] }
+playback_track = { fg = "#cba6f7", modifiers = ["Bold"] }
+playback_artists = { fg = "#94e2d5" }
+playback_album = { fg = "#89b4fa" }
+playback_progress_bar = { fg = "#cba6f7", bg = "#313244" }
+current_playing = { fg = "#a6e3a1", modifiers = ["Bold"] }
+selection = { fg = "#11111b", bg = "#cba6f7", modifiers = ["Bold"] }
+table_header = { fg = "#cba6f7", modifiers = ["Bold"] }
