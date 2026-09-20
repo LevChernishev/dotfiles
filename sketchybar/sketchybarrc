@@ -68,6 +68,7 @@ sketchybar --add item front_app left \
            --subscribe front_app front_app_switched
 
 ##### Spotify (PWA in Chrome) #####
+sketchybar --add event spotify_change
 sketchybar --add item spotify left \
            --set spotify \
                  icon="󰓇" \
@@ -77,9 +78,10 @@ sketchybar --add item spotify left \
                  label.padding_right=8 \
                  label.color=0xffcdd6f4 \
                  drawing=off \
-                 update_freq=5 \
-                 click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause; sleep 0.2; $PLUGIN_DIR/spotify.sh" \
-                 script="$PLUGIN_DIR/spotify.sh"
+                 update_freq=2 \
+                 click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause" \
+                 script="$PLUGIN_DIR/spotify.sh" \
+           --subscribe spotify spotify_change
 
 ##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
 
