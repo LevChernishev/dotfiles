@@ -2,6 +2,17 @@
 
 NAME="${NAME:-volume}"
 
+# Handle scroll event for instant volume adjustment
+if [ "$SENDER" = "mouse.scrolled" ]; then
+    DELTA="${SCROLL_DELTA:-0}"
+    if [ "$DELTA" -gt 0 ]; then
+        osascript -e "set volume output volume ((output volume of (get volume settings)) + 4)" 2>/dev/null
+    elif [ "$DELTA" -lt 0 ]; then
+        osascript -e "set volume output volume ((output volume of (get volume settings)) - 4)" 2>/dev/null
+    fi
+    exit 0
+fi
+
 if [ "$SENDER" = "volume_change" ]; then
     VOLUME="$INFO"
     if [ "$VOLUME" = "0" ] || [ -z "$VOLUME" ]; then

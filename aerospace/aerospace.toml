@@ -7,10 +7,10 @@ config-version = 2
 start-at-login = true
 auto-reload-config = true
 
-# Интеграция с SketchyBar (мгновенное переключение 1-9 без рассинхрона)
+# Интеграция с SketchyBar (мгновенное переключение 1-9 и S с умным Dimming)
 exec-on-workspace-change = [
     '/bin/bash', '-c',
-    'sketchybar --set "/space\\..*/" background.color=0xee181825 icon.color=0xffcdd6f4 label.color=0xffcdd6f4 background.border_width=1 --set "space.$AEROSPACE_FOCUSED_WORKSPACE" background.color=0xffcba6f7 icon.color=0xff11111b label.color=0xff11111b background.border_width=0'
+    '/Users/lev/.config/sketchybar/plugins/space_windows.sh'
 ]
 
 # Нормализация контейнеров
@@ -170,15 +170,15 @@ run = 'layout floating'
     alt-shift-r = 'reload-config'
 
     # Сервисный режим
-    alt-shift-semicolon = 'mode service'
+    alt-shift-semicolon = ['mode service', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=on']
 
 # Сервисный режим (для сброса или точечных действий)
 [mode.service.binding]
-    esc = ['reload-config', 'mode main']
-    r = ['flatten-workspace-tree', 'mode main']
-    f = ['layout floating tiling', 'mode main']
-    backspace = ['close-all-windows-but-current', 'mode main']
-    alt-shift-h = ['join-with left', 'mode main']
-    alt-shift-j = ['join-with down', 'mode main']
-    alt-shift-k = ['join-with up', 'mode main']
-    alt-shift-l = ['join-with right', 'mode main']
+    esc = ['reload-config', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    r = ['flatten-workspace-tree', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    f = ['layout floating tiling', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    backspace = ['close-all-windows-but-current', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --set aerospace_mode drawing=off']

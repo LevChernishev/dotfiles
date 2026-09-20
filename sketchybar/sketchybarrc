@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-PLUGIN_DIR="$CONFIG_DIR/plugins"
+PLUGIN_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins"
+BIN_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}/bin"
 
 ##### Bar Appearance (100% Transparent, floating pills) #####
 sketchybar --bar \
@@ -28,23 +29,34 @@ sketchybar --default \
   background.corner_radius=6 \
   background.height=24
 
-##### AeroSpace Workspaces (1-9) #####
+##### AeroSpace Workspaces (1-9 & S) #####
 FOCUSED="$(aerospace list-workspaces --focused 2>/dev/null)"
 [ -z "$FOCUSED" ] && FOCUSED="1"
 
-for sid in 1 2 3 4 5 6 7 8 9; do
+for sid in 1 2 3 4 5 6 7 8 9 S; do
+  if [ "$sid" = "S" ]; then
+    ICON="󱞁"
+    DRAWING="off"
+  else
+    ICON="$sid"
+    DRAWING="on"
+  fi
+
   if [ "$sid" = "$FOCUSED" ]; then
     BG_COLOR="0xffcba6f7"
     ICON_COLOR="0xff11111b"
     BORDER_WIDTH=0
+    DRAWING="on"
   else
     BG_COLOR="0xee181825"
     ICON_COLOR="0xffcdd6f4"
     BORDER_WIDTH=1
   fi
+
   sketchybar --add item "space.$sid" left \
              --set "space.$sid" \
-                   icon="$sid" \
+                   drawing="$DRAWING" \
+                   icon="$ICON" \
                    icon.padding_left=8 \
                    icon.padding_right=8 \
                    label.drawing=off \
@@ -54,6 +66,21 @@ for sid in 1 2 3 4 5 6 7 8 9; do
                    icon.color="$ICON_COLOR" \
                    click_script="aerospace workspace $sid"
 done
+
+##### AeroSpace Service Mode Indicator #####
+sketchybar --add item aerospace_mode left \
+           --set aerospace_mode \
+                 icon="󰘳" \
+                 label="SERVICE" \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xff11111b \
+                 label.color=0xff11111b \
+                 background.color=0xfffab387 \
+                 background.drawing=on \
+                 background.border_width=0 \
+                 drawing=off
 
 ##### Active Application Indicator #####
 sketchybar --add item front_app left \
@@ -65,9 +92,9 @@ sketchybar --add item front_app left \
                  icon.color=0xffcba6f7 \
                  label.color=0xffcdd6f4 \
                  script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+           --subscribe front_app front_app_switched space_windows_change
 
-##### Spotify (PWA in Chrome) #####
+##### Spotify (PWA in Chrome with Click & Scroll gestures) #####
 sketchybar --add event spotify_change
 sketchybar --add item spotify left \
            --set spotify \
@@ -81,11 +108,11 @@ sketchybar --add item spotify left \
                  update_freq=2 \
                  click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause" \
                  script="$PLUGIN_DIR/spotify.sh" \
-           --subscribe spotify spotify_change
+           --subscribe spotify spotify_change mouse.scrolled
 
-##### Right Side Items (order: VPN -> Keyboard -> Volume -> Battery -> Clock) #####
+##### Right Side Items #####
 
-# 1. Clock (far right)
+# 1. Clock (Far Right) with Calendar Popup
 sketchybar --add item clock right \
            --set clock \
                  update_freq=10 \
@@ -93,73 +120,166 @@ sketchybar --add item clock right \
                  icon.padding_right=4 \
                  label.padding_right=8 \
                  icon.color=0xffcba6f7 \
+                 popup.align=right \
+                 popup.background.color=0xee181825 \
+                 popup.background.border_color=0x22ffffff \
+                 popup.background.border_width=1 \
+                 popup.background.corner_radius=8 \
+                 click_script="$PLUGIN_DIR/clock.sh toggle; sketchybar --set clock popup.drawing=toggle" \
                  script="$PLUGIN_DIR/clock.sh"
 
-# 2. Battery
+sketchybar --add item calendar.header popup.clock \
+           --set calendar.header \
+                 icon="" \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xffcba6f7 \
+                 label.color=0xffcdd6f4 \
+                 label.font="FiraCode Nerd Font:Bold:12.0" \
+                 background.drawing=off \
+           --add item calendar.view popup.clock \
+           --set calendar.view \
+                 icon.drawing=off \
+                 label.padding_left=8 \
+                 label.padding_right=8 \
+                 label.font="FiraCode Nerd Font:Regular:11.0" \
+                 label.color=0xffcdd6f4 \
+                 background.drawing=off
+
+# 2. Weather Widget
+sketchybar --add item weather right \
+           --set weather \
+                 update_freq=300 \
+                 icon.drawing=off \
+                 label.padding_left=8 \
+                 label.padding_right=8 \
+                 label.color=0xffcdd6f4 \
+                 drawing=off \
+                 click_script="$PLUGIN_DIR/weather.sh" \
+                 script="$PLUGIN_DIR/weather.sh"
+
+# 3. System Bracket Items: Battery, Volume, Keyboard, VPN
 sketchybar --add item battery right \
            --set battery \
                  update_freq=60 \
-                 icon.padding_left=8 \
+                 background.drawing=off \
+                 icon.padding_left=6 \
                  icon.padding_right=4 \
                  label.padding_right=8 \
+                 popup.align=right \
+                 popup.background.color=0xee181825 \
+                 popup.background.border_color=0x22ffffff \
+                 popup.background.border_width=1 \
+                 popup.background.corner_radius=8 \
+                 click_script="$PLUGIN_DIR/battery.sh toggle; sketchybar --set battery popup.drawing=toggle" \
                  script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
 
-# 3. Volume
+sketchybar --add item battery.source popup.battery \
+           --set battery.source \
+                 icon="󰚥" \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xff89dceb \
+                 label.color=0xffcdd6f4 \
+                 background.drawing=off \
+           --add item battery.health popup.battery \
+           --set battery.health \
+                 icon="󰂑" \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xffa6e3a1 \
+                 label.color=0xffcdd6f4 \
+                 background.drawing=off \
+           --add item battery.cycles popup.battery \
+           --set battery.cycles \
+                 icon="󰑐" \
+                 icon.padding_left=8 \
+                 icon.padding_right=4 \
+                 label.padding_right=8 \
+                 icon.color=0xfffab387 \
+                 label.color=0xffcdd6f4 \
+                 background.drawing=off
+
 sketchybar --add item volume right \
            --set volume \
-                 icon.padding_left=8 \
+                 background.drawing=off \
+                 icon.padding_left=6 \
                  icon.padding_right=4 \
-                 label.padding_right=8 \
+                 label.padding_right=6 \
                  script="$PLUGIN_DIR/volume.sh" \
-                 click_script="$CONFIG_DIR/bin/get_volume toggle; $PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change
+                 click_script="$BIN_DIR/get_volume toggle; $PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change mouse.scrolled
 
-# 4. Keyboard Input Source (100% event-driven, zero polling)
 sketchybar --add event input_change AppleSelectedInputSourcesChangedNotification
-
 sketchybar --add item keyboard right \
            --set keyboard \
+                 background.drawing=off \
                  icon=" " \
                  label.font="FiraCode Nerd Font:Bold:12.0" \
-                 icon.padding_left=8 \
+                 icon.padding_left=6 \
                  icon.padding_right=4 \
-                 label.padding_right=8 \
+                 label.padding_right=6 \
                  icon.color=0xfffab387 \
                  click_script="$PLUGIN_DIR/keyboard.sh toggle; sketchybar --update" \
                  script="$PLUGIN_DIR/keyboard.sh" \
            --subscribe keyboard input_change
 
-# 5. VPN Status (Shadowrocket)
 sketchybar --add item vpn right \
            --set vpn \
+                 background.drawing=off \
                  update_freq=10 \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
-                 label.padding_right=8 \
+                 label.padding_right=6 \
                  click_script="$PLUGIN_DIR/vpn.sh toggle; sketchybar --update" \
                  script="$PLUGIN_DIR/vpn.sh"
 
-# 6. RAM Usage
+# System Bracket
+sketchybar --add bracket system vpn keyboard volume battery \
+           --set system \
+                 background.drawing=on \
+                 background.color=0xee181825 \
+                 background.border_color=0x22ffffff \
+                 background.border_width=1 \
+                 background.corner_radius=6
+
+# 4. Hardware Bracket Items: RAM & CPU
 sketchybar --add item ram right \
            --set ram \
+                 background.drawing=off \
                  icon="󰍛" \
                  icon.color="0xfff9e2af" \
-                 icon.padding_left=8 \
+                 icon.padding_left=4 \
                  icon.padding_right=4 \
                  label.padding_right=8
 
-# 7. CPU Load
 sketchybar --add item cpu right \
            --set cpu \
+                 background.drawing=off \
                  icon="" \
                  icon.color="0xff89dceb" \
                  icon.padding_left=8 \
                  icon.padding_right=4 \
-                 label.padding_right=8 \
+                 label.padding_right=4 \
                  update_freq=5 \
                  script="$PLUGIN_DIR/cpu_ram.sh"
 
-##### Update all #####
+# Hardware Bracket
+sketchybar --add bracket hardware cpu ram \
+           --set hardware \
+                 background.drawing=on \
+                 background.color=0xee181825 \
+                 background.border_color=0x22ffffff \
+                 background.border_width=1 \
+                 background.corner_radius=6
+
+##### Update all and sync workspace states #####
 sketchybar --update
 "$PLUGIN_DIR/space_windows.sh" &
+"$PLUGIN_DIR/weather.sh" &
+"$PLUGIN_DIR/clock.sh" update &
+"$PLUGIN_DIR/battery.sh" details &
