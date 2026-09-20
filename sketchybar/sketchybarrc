@@ -94,7 +94,7 @@ sketchybar --add item front_app left \
                  script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
-##### Spotify (PWA in Chrome with Click & Scroll gestures) #####
+##### Spotify (PWA in Chrome) #####
 sketchybar --add event spotify_change
 sketchybar --add item spotify left \
            --set spotify \
@@ -108,7 +108,7 @@ sketchybar --add item spotify left \
                  update_freq=2 \
                  click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause" \
                  script="$PLUGIN_DIR/spotify.sh" \
-           --subscribe spotify spotify_change mouse.scrolled
+           --subscribe spotify spotify_change
 
 ##### Right Side Items #####
 
