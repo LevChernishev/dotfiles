@@ -18,7 +18,23 @@ get_icon() {
   esac
 }
 
-typeset -A ws_icons
+LOCK_FILE="/tmp/space_windows.lock"
+PENDING_FILE="/tmp/space_windows.pending"
+
+if [[ -f "$LOCK_FILE" ]]; then
+  OLD_PID=$(<"$LOCK_FILE" 2>/dev/null)
+  if [[ -n "$OLD_PID" ]] && kill -0 "$OLD_PID" 2>/dev/null; then
+    touch "$PENDING_FILE"
+    exit 0
+  fi
+fi
+
+echo "$$" > "$LOCK_FILE"
+trap 'rm -f "$LOCK_FILE" "$PENDING_FILE"' EXIT INT TERM
+
+while true; do
+  rm -f "$PENDING_FILE"
+  typeset -A ws_icons
 
 while IFS='|' read -r ws app; do
   [[ -z "$ws" ]] && continue
@@ -116,3 +132,8 @@ done
 if (( ${#args[@]} > 0 )); then
   /opt/homebrew/bin/sketchybar "${args[@]}"
 fi
+
+  if [[ ! -f "$PENDING_FILE" ]]; then
+    break
+  fi
+done
