@@ -15,6 +15,16 @@ format_server_name() {
 }
 
 if [ "$1" = "toggle" ]; then
+    LOCK_FILE="/tmp/.vpn_toggle.lock"
+    NOW=$(date +%s)
+    if [ -f "$LOCK_FILE" ]; then
+        LAST_TIME=$(cat "$LOCK_FILE" 2>/dev/null)
+        if [ -n "$LAST_TIME" ] && [ $((NOW - LAST_TIME)) -lt 2 ]; then
+            exit 0
+        fi
+    fi
+    echo "$NOW" > "$LOCK_FILE"
+
     if scutil --nc status "Shadowrocket" 2>/dev/null | grep -q "^Connected"; then
         scutil --nc stop "Shadowrocket"
     else

@@ -97,10 +97,8 @@ BAR_ARGS+=(
         drawing=off
         script="$PLUGIN_DIR/space_windows.sh"
   --subscribe space_watcher front_app_switched space_windows_change
-)
 
-##### Right Side Items #####
-BAR_ARGS+=(
+  ##### Right Side Items #####
   # 1. Clock & Date Card Popup
   --add item clock right
   --set clock
@@ -114,7 +112,7 @@ BAR_ARGS+=(
         popup.background.border_color=0x22ffffff
         popup.background.border_width=1
         popup.background.corner_radius=8
-        click_script="$PLUGIN_DIR/clock.sh toggle; sketchybar --set clock popup.drawing=toggle"
+        click_script="sketchybar --set clock popup.drawing=toggle"
         script="$PLUGIN_DIR/clock.sh"
 
   --add item cal.header popup.clock
@@ -183,7 +181,7 @@ BAR_ARGS+=(
         popup.background.border_color=0x22ffffff
         popup.background.border_width=1
         popup.background.corner_radius=8
-        click_script="$PLUGIN_DIR/battery.sh toggle; sketchybar --set battery popup.drawing=toggle"
+        click_script="sketchybar --set battery popup.drawing=toggle"
         script="$PLUGIN_DIR/battery.sh"
   --subscribe battery system_woke power_source_change
 
@@ -224,7 +222,7 @@ BAR_ARGS+=(
         icon.padding_right=4
         label.padding_right=6
         script="$PLUGIN_DIR/volume.sh"
-        click_script="$BIN_DIR/get_volume toggle; $PLUGIN_DIR/volume.sh"
+        click_script="$BIN_DIR/get_volume toggle"
   --subscribe volume volume_change mouse.scrolled
 
   --add event input_change AppleSelectedInputSourcesChangedNotification
@@ -237,7 +235,7 @@ BAR_ARGS+=(
         icon.padding_right=4
         label.padding_right=6
         icon.color=0xfffab387
-        click_script="$PLUGIN_DIR/keyboard.sh toggle"
+        click_script="$BIN_DIR/get_layout toggle"
         script="$PLUGIN_DIR/keyboard.sh"
   --subscribe keyboard input_change
 

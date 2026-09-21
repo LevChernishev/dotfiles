@@ -1,9 +1,39 @@
 #include <Carbon/Carbon.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h>
+#include <sys/file.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+#define DEBOUNCE_MS 200
 
 int main(int argc, char *argv[]) {
     if (argc > 1 && strcmp(argv[1], "toggle") == 0) {
+        int throttle_fd = open("/tmp/.get_layout_throttle", O_RDWR | O_CREAT, 0644);
+        if (throttle_fd >= 0) {
+            if (flock(throttle_fd, LOCK_EX) == 0) {
+                struct timeval last_tv = {0, 0};
+                ssize_t n = read(throttle_fd, &last_tv, sizeof(last_tv));
+                struct timeval now;
+                gettimeofday(&now, NULL);
+
+                if (n == sizeof(last_tv)) {
+                    long elapsed_ms = (now.tv_sec - last_tv.tv_sec) * 1000 + (now.tv_usec - last_tv.tv_usec) / 1000;
+                    if (elapsed_ms >= 0 && elapsed_ms < DEBOUNCE_MS) {
+                        flock(throttle_fd, LOCK_UN);
+                        close(throttle_fd);
+                        return 0;
+                    }
+                }
+
+                lseek(throttle_fd, 0, SEEK_SET);
+                write(throttle_fd, &now, sizeof(now));
+                flock(throttle_fd, LOCK_UN);
+            }
+            close(throttle_fd);
+        }
+
         TISInputSourceRef currentSource = TISCopyCurrentKeyboardInputSource();
         CFStringRef sourceID = (CFStringRef)TISGetInputSourceProperty(currentSource, kTISPropertyInputSourceID);
         char current[256] = {0};
@@ -32,6 +62,7 @@ int main(int argc, char *argv[]) {
             }
         }
         CFRelease(sourceList);
+        return 0;
     }
 
     TISInputSourceRef currentSource = TISCopyCurrentKeyboardInputSource();

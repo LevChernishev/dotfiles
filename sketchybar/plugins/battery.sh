@@ -2,7 +2,7 @@
 
 NAME="${NAME:-battery}"
 
-if [ "$1" = "details" ] || [ "$1" = "toggle" ]; then
+if [ "$1" = "details" ] || [ "$SENDER" = "power_source_change" ] || [ "$SENDER" = "system_woke" ]; then
     BAT_RAW=$(ioreg -r -c AppleSmartBattery -d 1)
     BD=$(echo "$BAT_RAW" | grep '"BatteryData"')
     FCC=$(echo "$BD" | sed -E 's/.*"FullChargeCapacity"=([0-9]+).*/\1/')
@@ -24,7 +24,7 @@ if [ "$1" = "details" ] || [ "$1" = "toggle" ]; then
     sketchybar --set battery.health label="Здоровье: ${HEALTH}% (${FCC}/${DC} mAh)" \
                --set battery.cycles label="Циклы: ${CYCLES}" \
                --set battery.source label="$CHARGING_STATUS"
-    exit 0
+    [ "$1" = "details" ] && exit 0
 fi
 
 BATT_INFO=$(pmset -g batt 2>/dev/null)

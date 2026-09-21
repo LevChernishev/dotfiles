@@ -2,7 +2,12 @@
 
 NAME="${NAME:-clock}"
 
-if [ "$1" = "toggle" ] || [ "$1" = "update" ]; then
+TODAY=$(date '+%Y-%m-%d')
+CACHE_FILE="/tmp/.sketchybar_clock_date"
+CACHE_DATE=$(cat "$CACHE_FILE" 2>/dev/null)
+
+if [ "$1" = "update" ] || [ "$TODAY" != "$CACHE_DATE" ]; then
+    echo "$TODAY" > "$CACHE_FILE"
     DATE_RU=$(LC_TIME=ru_RU.UTF-8 date '+%A, %d %B %Y' 2>/dev/null)
     if [ -n "$DATE_RU" ]; then
         CAP_DATE="$(tr '[:lower:]' '[:upper:]' <<< "${DATE_RU:0:1}")${DATE_RU:1}"
@@ -15,7 +20,7 @@ if [ "$1" = "toggle" ] || [ "$1" = "update" ]; then
 
     sketchybar --set cal.header label="$CAP_DATE" \
                --set cal.sub label="$SUB_TEXT"
-    exit 0
+    [ "$1" = "update" ] && exit 0
 fi
 
 sketchybar --set "$NAME" icon="" label="$(date '+%H:%M')"
