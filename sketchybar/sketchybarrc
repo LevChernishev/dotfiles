@@ -48,6 +48,7 @@ for sid in 1 2 3 4 5 6 7 8 9 S; do
     BORDER_COLOR="0xffcba6f7"
     ICON_COLOR="0xffcba6f7"
     BORDER_WIDTH="1.5"
+    DRAWING="on"
   else
     BORDER_COLOR="0x22ffffff"
     ICON_COLOR="0x88cdd6f4"
@@ -63,33 +64,14 @@ for sid in 1 2 3 4 5 6 7 8 9 S; do
           icon.padding_left=8
           icon.padding_right=4
           label.drawing=off
-          background.drawing=off
-          icon.color="$ICON_COLOR"
-          click_script="aerospace workspace $sid"
-  )
-
-  for wid in 1 2 3 4; do
-    BAR_ARGS+=(
-      --add item "space.$sid.w$wid" left
-      --set "space.$sid.w$wid"
-            icon.drawing=off
-            label.font="FiraCode Nerd Font:Bold:13.0"
-            label.padding_left=0
-            label.padding_right=4
-            background.drawing=off
-            drawing=off
-            click_script="aerospace workspace $sid"
-    )
-  done
-
-  BAR_ARGS+=(
-    --add bracket "space.$sid.b" "space.$sid" "space.$sid.w1" "space.$sid.w2" "space.$sid.w3" "space.$sid.w4"
-    --set "space.$sid.b"
+          label.font="FiraCode Nerd Font:Bold:13.0"
+          label.padding_right=8
           background.drawing=on
           background.color="0xee181825"
           background.border_color="$BORDER_COLOR"
           background.border_width="$BORDER_WIDTH"
           background.corner_radius=6
+          icon.color="$ICON_COLOR"
           click_script="aerospace workspace $sid"
   )
 done
