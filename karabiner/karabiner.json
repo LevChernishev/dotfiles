@@ -45,7 +45,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/Users/lev/.config/sketchybar/bin/get_layout toggle"
+                                        "shell_command": "/Users/lev/.local/bin/get_layout toggle"
                                     }
                                 ]
                             }
