@@ -1,0 +1,49 @@
+# Amethyst Configuration
+# Documentation: https://github.com/ianyh/Amethyst
+
+# Layouts to cycle through
+layouts:
+  - tall
+  - wide
+  - fullscreen
+  - column
+  - bsp
+
+# Modifiers
+# mod1: Option + Shift (default)
+mod1:
+  - option
+  - shift
+
+# mod2: Control + Option + Shift (default)
+mod2:
+  - option
+  - shift
+  - control
+
+# Window Margins (Gaps)
+window-margins: true
+window-margin-size: 6
+smart-window-margins: false
+
+# Window resize step (percentage)
+window-resize-step: 5
+
+# Behavior
+focus-follows-mouse: false
+mouse-follows-focus: false
+follow-space-thrown-windows: true
+new-windows-to-main: false
+ignore-menu-bar: false
+
+# Automatically floating apps
+floating:
+  - com.apple.systempreferences
+  - com.apple.archiveutility
+  - com.aone.keka
+  - com.apple.calculator
+  - com.apple.QuickTimePlayerX
+
+floating-is-blacklist: true
+float-small-windows: true
+small-window-size: 500
