@@ -97,22 +97,6 @@ BAR_ARGS+=(
         drawing=off
         script="$PLUGIN_DIR/space_windows.sh"
   --subscribe space_watcher front_app_switched space_windows_change
-
-
-  --add event spotify_change
-  --add item spotify left
-  --set spotify
-        icon="󰓇"
-        icon.color=0xffa6e3a1
-        icon.padding_left=8
-        icon.padding_right=4
-        label.padding_right=8
-        label.color=0xffcdd6f4
-        drawing=off
-        update_freq=1
-        click_script="$PLUGIN_DIR/media.sh click"
-        script="$PLUGIN_DIR/media.sh"
-  --subscribe spotify spotify_change
 )
 
 ##### Right Side Items #####
@@ -253,7 +237,7 @@ BAR_ARGS+=(
         icon.padding_right=4
         label.padding_right=6
         icon.color=0xfffab387
-        click_script="$PLUGIN_DIR/keyboard.sh toggle; sketchybar --update"
+        click_script="$PLUGIN_DIR/keyboard.sh toggle"
         script="$PLUGIN_DIR/keyboard.sh"
   --subscribe keyboard input_change
 
@@ -264,7 +248,7 @@ BAR_ARGS+=(
         icon.padding_left=8
         icon.padding_right=4
         label.padding_right=6
-        click_script="$PLUGIN_DIR/vpn.sh toggle; sketchybar --update"
+        click_script="$PLUGIN_DIR/vpn.sh toggle"
         script="$PLUGIN_DIR/vpn.sh"
 
   --add bracket system vpn keyboard volume battery

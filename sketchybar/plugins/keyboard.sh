@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+BIN_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}/bin"
+
 if [ "$1" = "toggle" ]; then
-    LAYOUT=$("$CONFIG_DIR/bin/get_layout" toggle)
-else
-    LAYOUT=$("$CONFIG_DIR/bin/get_layout")
+    "$BIN_DIR/get_layout" toggle >/dev/null 2>&1
+    exit 0
 fi
 
-sketchybar --set "$NAME" label="$LAYOUT"
+LAYOUT=$("$BIN_DIR/get_layout" 2>/dev/null)
+[ -z "$LAYOUT" ] && LAYOUT="EN"
+
+sketchybar --set "${NAME:-keyboard}" label="$LAYOUT"
