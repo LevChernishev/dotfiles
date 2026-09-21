@@ -6,8 +6,6 @@ layouts:
   - tall
   - wide
   - fullscreen
-  - column
-  - bsp
 
 # Modifiers
 # mod1: Option + Shift (default)
