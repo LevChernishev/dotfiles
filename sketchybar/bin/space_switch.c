@@ -27,61 +27,42 @@ int main(void) {
         }
     }
 
-    char curr_item[32];
+    char curr_item[32], curr_b[32];
     snprintf(curr_item, sizeof(curr_item), "space.%s", curr);
+    snprintf(curr_b, sizeof(curr_b), "space.%s.b", curr);
 
     if (prev && prev[0] && strcmp(prev, curr) != 0) {
-        char prev_item[32];
+        char prev_item[32], prev_b[32];
         snprintf(prev_item, sizeof(prev_item), "space.%s", prev);
+        snprintf(prev_b, sizeof(prev_b), "space.%s.b", prev);
 
         if (strcmp(prev, "S") == 0 && !prev_occupied) {
             char *args[] = {
                 "/opt/homebrew/bin/sketchybar",
                 "--set", prev_item, "drawing=off",
-                "--set", curr_item,
-                "drawing=on",
-                "background.drawing=on",
-                "background.color=0xee181825",
-                "background.border_color=0xffcba6f7",
-                "background.border_width=1.5",
-                "icon.color=0xffcba6f7",
+                "--set", prev_b, "background.drawing=off",
+                "--set", curr_item, "drawing=on", "icon.color=0xffcba6f7",
+                "--set", curr_b, "background.drawing=on", "background.border_color=0xffcba6f7", "background.border_width=1.5",
                 NULL
             };
             execv(args[0], args);
         } else if (prev_occupied) {
             char *args[] = {
                 "/opt/homebrew/bin/sketchybar",
-                "--set", prev_item,
-                "background.drawing=on",
-                "background.color=0xee181825",
-                "background.border_color=0x22ffffff",
-                "background.border_width=1",
-                "icon.color=0x88cdd6f4",
-                "label.color=0x55cdd6f4",
-                "--set", curr_item,
-                "drawing=on",
-                "background.drawing=on",
-                "background.color=0xee181825",
-                "background.border_color=0xffcba6f7",
-                "background.border_width=1.5",
-                "icon.color=0xffcba6f7",
+                "--set", prev_item, "icon.color=0x88cdd6f4",
+                "--set", prev_b, "background.drawing=on", "background.border_color=0x22ffffff", "background.border_width=1",
+                "--set", curr_item, "drawing=on", "icon.color=0xffcba6f7",
+                "--set", curr_b, "background.drawing=on", "background.border_color=0xffcba6f7", "background.border_width=1.5",
                 NULL
             };
             execv(args[0], args);
         } else {
             char *args[] = {
                 "/opt/homebrew/bin/sketchybar",
-                "--set", prev_item,
-                "background.drawing=off",
-                "icon.color=0x44cdd6f4",
-                "background.border_width=0",
-                "--set", curr_item,
-                "drawing=on",
-                "background.drawing=on",
-                "background.color=0xee181825",
-                "background.border_color=0xffcba6f7",
-                "background.border_width=1.5",
-                "icon.color=0xffcba6f7",
+                "--set", prev_item, "icon.color=0x44cdd6f4",
+                "--set", prev_b, "background.drawing=off",
+                "--set", curr_item, "drawing=on", "icon.color=0xffcba6f7",
+                "--set", curr_b, "background.drawing=on", "background.border_color=0xffcba6f7", "background.border_width=1.5",
                 NULL
             };
             execv(args[0], args);
@@ -89,13 +70,8 @@ int main(void) {
     } else {
         char *args[] = {
             "/opt/homebrew/bin/sketchybar",
-            "--set", curr_item,
-            "drawing=on",
-            "background.drawing=on",
-            "background.color=0xee181825",
-            "background.border_color=0xffcba6f7",
-            "background.border_width=1.5",
-            "icon.color=0xffcba6f7",
+            "--set", curr_item, "drawing=on", "icon.color=0xffcba6f7",
+            "--set", curr_b, "background.drawing=on", "background.border_color=0xffcba6f7", "background.border_width=1.5",
             NULL
         };
         execv(args[0], args);
