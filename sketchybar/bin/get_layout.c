@@ -40,28 +40,30 @@ int main(int argc, char *argv[]) {
         if (sourceID) CFStringGetCString(sourceID, current, sizeof(current), kCFStringEncodingUTF8);
         CFRelease(currentSource);
 
-        CFArrayRef sourceList = TISCreateInputSourceList(NULL, false);
-        CFIndex count = CFArrayGetCount(sourceList);
+        const void *filterKeys[] = { kTISPropertyInputSourceCategory };
+        const void *filterVals[] = { kTISCategoryKeyboardInputSource };
+        CFDictionaryRef filterDict = CFDictionaryCreate(NULL, filterKeys, filterVals, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        CFArrayRef sourceList = TISCreateInputSourceList(filterDict, false);
+        CFRelease(filterDict);
+
+        CFIndex count = sourceList ? CFArrayGetCount(sourceList) : 0;
         for (CFIndex i = 0; i < count; i++) {
             TISInputSourceRef source = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, i);
-            CFStringRef cat = (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceCategory);
-            if (cat && CFStringCompare(cat, kTISCategoryKeyboardInputSource, 0) == kCFCompareEqualTo) {
-                CFBooleanRef selectable = (CFBooleanRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceIsSelectCapable);
-                if (selectable && CFBooleanGetValue(selectable)) {
-                    CFStringRef sid = (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
-                    char buf[256] = {0};
-                    if (sid) CFStringGetCString(sid, buf, sizeof(buf), kCFStringEncodingUTF8);
-                    if (strstr(current, "Russian") && (strstr(buf, "ABC") || strstr(buf, "US") || strstr(buf, "en"))) {
-                        TISSelectInputSource(source);
-                        break;
-                    } else if (!strstr(current, "Russian") && (strstr(buf, "Russian") || strstr(buf, "ru"))) {
-                        TISSelectInputSource(source);
-                        break;
-                    }
+            CFBooleanRef selectable = (CFBooleanRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceIsSelectCapable);
+            if (selectable && CFBooleanGetValue(selectable)) {
+                CFStringRef sid = (CFStringRef)TISGetInputSourceProperty(source, kTISPropertyInputSourceID);
+                char buf[256] = {0};
+                if (sid) CFStringGetCString(sid, buf, sizeof(buf), kCFStringEncodingUTF8);
+                if (strstr(current, "Russian") && (strstr(buf, "ABC") || strstr(buf, "US") || strstr(buf, "en"))) {
+                    TISSelectInputSource(source);
+                    break;
+                } else if (!strstr(current, "Russian") && (strstr(buf, "Russian") || strstr(buf, "ru"))) {
+                    TISSelectInputSource(source);
+                    break;
                 }
             }
         }
-        CFRelease(sourceList);
+        if (sourceList) CFRelease(sourceList);
         return 0;
     }
 
