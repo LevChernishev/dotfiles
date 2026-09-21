@@ -45,14 +45,14 @@ for sid in 1 2 3 4 5 6 7 8 9 S; do
   fi
 
   if [ "$sid" = "$FOCUSED" ]; then
-    BG_COLOR="0xffcba6f7"
-    ICON_COLOR="0xff11111b"
-    BORDER_WIDTH=0
+    BORDER_COLOR="0xffcba6f7"
+    ICON_COLOR="0xffcba6f7"
+    BORDER_WIDTH="1.5"
     DRAWING="on"
   else
-    BG_COLOR="0xee181825"
-    ICON_COLOR="0xffcdd6f4"
-    BORDER_WIDTH=1
+    BORDER_COLOR="0x22ffffff"
+    ICON_COLOR="0x88cdd6f4"
+    BORDER_WIDTH="1"
   fi
 
   BAR_ARGS+=(
@@ -64,14 +64,15 @@ for sid in 1 2 3 4 5 6 7 8 9 S; do
           icon.padding_right=8
           label.drawing=off
           background.drawing=on
-          background.color="$BG_COLOR"
+          background.color="0xee181825"
+          background.border_color="$BORDER_COLOR"
           background.border_width="$BORDER_WIDTH"
           icon.color="$ICON_COLOR"
           click_script="aerospace workspace $sid"
   )
 done
 
-##### Left Items: Mode, Active App, Spotify #####
+##### Left Items: Mode, Space Watcher, Spotify #####
 BAR_ARGS+=(
   --add item aerospace_mode left
   --set aerospace_mode
@@ -87,16 +88,12 @@ BAR_ARGS+=(
         background.border_width=0
         drawing=off
 
-  --add item front_app left
-  --set front_app
-        icon.font="FiraCode Nerd Font:Bold:13.0"
-        icon.padding_left=8
-        icon.padding_right=4
-        label.padding_right=8
-        icon.color=0xffcba6f7
-        label.color=0xffcdd6f4
-        script="$PLUGIN_DIR/front_app.sh"
-  --subscribe front_app front_app_switched
+  --add item space_watcher left
+  --set space_watcher
+        drawing=off
+        script="$PLUGIN_DIR/space_windows.sh"
+  --subscribe space_watcher front_app_switched space_windows_change
+
 
   --add event spotify_change
   --add item spotify left

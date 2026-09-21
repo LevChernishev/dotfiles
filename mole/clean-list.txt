@@ -1,4 +1,4 @@
-# Mole Cleanup Preview - 2026-09-18 15:20:02
+# Mole Cleanup Preview - 2026-09-21 12:05:01
 #
 # How to protect files:
 # 1. Copy any path below to ~/.config/mole/whitelist
@@ -8,78 +8,3 @@
 #   /Users/*/Library/Caches/com.example.app
 #
 
-
-=== User essentials ===
-/Users/lev/Library/Caches/Google  # 10.9MB
-/Users/lev/Library/Caches/Homebrew  # 38.6MB
-/Users/lev/Library/Caches/GeoServices  # 12KB
-/Users/lev/Library/Caches/PHTPhenotype  # 0B
-/Users/lev/Library/Caches/CCTClearcutLogger  # 8KB
-/Users/lev/Library/Caches/com.google.antigravity.ShipIt  # 0B
-/Users/lev/Library/Logs/Baseband  # 0B
-/Users/lev/Library/Logs/Antigravity  # 143KB
-
-=== App caches ===
-/Users/lev/Library/Caches/GeoServices/DirectReadConfigStore.plist  # 1KB
-/Users/lev/Library/Caches/com.apple.AppleMediaServices/Metrics  # 82KB
-/Users/lev/Library/Caches/com.apple.AppleMediaServices/Storage  # 45KB
-/Users/lev/Library/Caches/com.apple.AppleMediaServices/Engagement  # 0B
-/Users/lev/Library/Caches/com.apple.parsecd/bag.plist  # 3KB
-/Users/lev/Library/Caches/com.apple.parsecd/CustomFeedback  # 0B
-/Users/lev/Library/Caches/com.apple.parsecd/installed_app_whitelist_url  # 169KB
-
-=== Browsers ===
-/Users/lev/Library/Caches/Google/Chrome/Profile 2  # 10.9MB
-
-=== Developer tools ===
-/Users/lev/.npm/_cacache/index-v5  # 78KB
-/Users/lev/.npm/_cacache/content-v2  # 28.0MB
-/Users/lev/.npm/_logs/2026-09-18T12_11_58_329Z-debug-0.log  # 1KB
-/Users/lev/.npm/_logs/2026-09-18T12_19_37_661Z-debug-0.log  # 1KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/agy/__pycache__  # 37KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/ide/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/manager/__pycache__  # 33KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/utils/__pycache__  # 49KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/vscode/__pycache__  # 29KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/agy/__pycache__  # 37KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/ide/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/manager/__pycache__  # 33KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/utils/__pycache__  # 53KB
-/Users/lev/Projects/open-antigravity-patcher/open-antigravity-patcher/open-antigravity-patcher/source/patcher/vscode/__pycache__  # 29KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/agy/__pycache__  # 37KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/ide/__pycache__  # 45KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/manager/__pycache__  # 37KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/utils/__pycache__  # 61KB
-/Users/lev/Projects/open-antigravity-patcher/source/patcher/vscode/__pycache__  # 29KB
-/Users/lev/Library/Application Support/Antigravity/Cache/Cache_Data  # 2.9MB
-/Users/lev/Library/Application Support/Antigravity/Cache/No_Vary_Search  # 8KB
-/Users/lev/Library/Application Support/Antigravity/Code Cache/js  # 57KB
-/Users/lev/Library/Application Support/Antigravity/Code Cache/wasm  # 8KB
-/Users/lev/Library/Application Support/Antigravity/GPUCache/index  # 263KB
-/Users/lev/Library/Application Support/Antigravity/GPUCache/data_0  # 8KB
-/Users/lev/Library/Application Support/Antigravity/GPUCache/data_1  # 270KB
-/Users/lev/Library/Application Support/Antigravity/GPUCache/data_2  # 8KB
-/Users/lev/Library/Application Support/Antigravity/GPUCache/data_3  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnGraphiteCache/index  # 263KB
-/Users/lev/Library/Application Support/Antigravity/DawnGraphiteCache/data_0  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnGraphiteCache/data_1  # 270KB
-/Users/lev/Library/Application Support/Antigravity/DawnGraphiteCache/data_2  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnGraphiteCache/data_3  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnWebGPUCache/index  # 263KB
-/Users/lev/Library/Application Support/Antigravity/DawnWebGPUCache/data_0  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnWebGPUCache/data_1  # 270KB
-/Users/lev/Library/Application Support/Antigravity/DawnWebGPUCache/data_2  # 8KB
-/Users/lev/Library/Application Support/Antigravity/DawnWebGPUCache/data_3  # 8KB
-
-=== Apps & utilities ===
-/Users/lev/.zcompdump  # 50KB
-
-# ============================================
-# Summary
-# ============================================
-# Potential cleanup: 94.3MB
-# Items: 58
-# Categories: 5

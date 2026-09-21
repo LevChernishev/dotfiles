@@ -41,10 +41,10 @@ int main(void) {
                 "--set", curr_item,
                 "drawing=on",
                 "background.drawing=on",
-                "background.color=0xffcba6f7",
-                "icon.color=0xff11111b",
-                "label.color=0xff11111b",
-                "background.border_width=0",
+                "background.color=0xee181825",
+                "background.border_color=0xffcba6f7",
+                "background.border_width=1.5",
+                "icon.color=0xffcba6f7",
                 NULL
             };
             execv(args[0], args);
@@ -54,16 +54,17 @@ int main(void) {
                 "--set", prev_item,
                 "background.drawing=on",
                 "background.color=0xee181825",
-                "icon.color=0xffcdd6f4",
-                "label.color=0xffcdd6f4",
+                "background.border_color=0x22ffffff",
                 "background.border_width=1",
+                "icon.color=0x88cdd6f4",
+                "label.color=0x55cdd6f4",
                 "--set", curr_item,
                 "drawing=on",
                 "background.drawing=on",
-                "background.color=0xffcba6f7",
-                "icon.color=0xff11111b",
-                "label.color=0xff11111b",
-                "background.border_width=0",
+                "background.color=0xee181825",
+                "background.border_color=0xffcba6f7",
+                "background.border_width=1.5",
+                "icon.color=0xffcba6f7",
                 NULL
             };
             execv(args[0], args);
@@ -77,10 +78,10 @@ int main(void) {
                 "--set", curr_item,
                 "drawing=on",
                 "background.drawing=on",
-                "background.color=0xffcba6f7",
-                "icon.color=0xff11111b",
-                "label.color=0xff11111b",
-                "background.border_width=0",
+                "background.color=0xee181825",
+                "background.border_color=0xffcba6f7",
+                "background.border_width=1.5",
+                "icon.color=0xffcba6f7",
                 NULL
             };
             execv(args[0], args);
@@ -91,10 +92,10 @@ int main(void) {
             "--set", curr_item,
             "drawing=on",
             "background.drawing=on",
-            "background.color=0xffcba6f7",
-            "icon.color=0xff11111b",
-            "label.color=0xff11111b",
-            "background.border_width=0",
+            "background.color=0xee181825",
+            "background.border_color=0xffcba6f7",
+            "background.border_width=1.5",
+            "icon.color=0xffcba6f7",
             NULL
         };
         execv(args[0], args);

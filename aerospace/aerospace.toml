@@ -9,7 +9,7 @@ auto-reload-config = true
 
 # Интеграция с SketchyBar (мгновенное переключение 1-9 и S с умным Dimming за 2мс)
 exec-on-workspace-change = [
-    '/Users/lev/.config/sketchybar/bin/space_switch'
+    '/Users/lev/.config/sketchybar/bin/space_switch', 'exec-and-forget /Users/lev/.config/sketchybar/plugins/space_windows.sh'
 ]
 
 # Нормализация контейнеров

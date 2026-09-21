@@ -36,29 +36,54 @@ echo " ${(k)ws_icons} " > /tmp/sketchybar_occupied_spaces
 FOCUSED="${AEROSPACE_FOCUSED_WORKSPACE:-$(/opt/homebrew/bin/aerospace list-workspaces --focused 2>/dev/null)}"
 [[ -z "$FOCUSED" ]] && FOCUSED="1"
 
+FOCUSED_APP="$(/opt/homebrew/bin/aerospace list-windows --focused --format '%{app-name}' 2>/dev/null)"
+FOCUSED_ICON=""
+[[ -n "$FOCUSED_APP" ]] && FOCUSED_ICON="$(get_icon "$FOCUSED_APP")"
+
 args=()
 
 for sid in 1 2 3 4 5 6 7 8 9 S; do
-  icons="${ws_icons[$sid]:-}"
-  icons="${icons## }"
-  icons="${icons%% }"
+  raw_icons="${ws_icons[$sid]:-}"
+  raw_icons="${raw_icons## }"
+  raw_icons="${raw_icons%% }"
 
   if [[ "$sid" == "$FOCUSED" ]]; then
-    # Active/Focused workspace: Solid Mauve highlight pill
-    if [[ -n "$icons" ]]; then
-      args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xffcba6f7 background.border_width=0 icon.color=0xff11111b label.color=0xff11111b label="$icons" label.drawing=on icon.padding_left=8 icon.padding_right=4 label.padding_right=8)
+    # Focused Workspace
+    if [[ -n "$raw_icons" ]]; then
+      if [[ -n "$FOCUSED_ICON" && " $raw_icons " == *" $FOCUSED_ICON "* ]]; then
+        # Active app is in this focused workspace: highlight it in contrast with the space number
+        icon_str="$sid  $FOCUSED_ICON"
+        # Other apps in this workspace are inactive / dimmed
+        other_icons=""
+        for ic in ${(z)raw_icons}; do
+          if [[ "$ic" != "$FOCUSED_ICON" ]]; then
+            other_icons+="$ic "
+          fi
+        done
+        other_icons="${other_icons%% }"
+
+        if [[ -n "$other_icons" ]]; then
+          args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_color=0xffcba6f7 background.border_width=1.5 icon="$icon_str" icon.color=0xffcba6f7 icon.padding_left=8 icon.padding_right=4 label="$other_icons" label.color=0x55cdd6f4 label.drawing=on label.padding_right=8)
+        else
+          args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_color=0xffcba6f7 background.border_width=1.5 icon="$icon_str" icon.color=0xffcba6f7 icon.padding_left=8 icon.padding_right=8 label="" label.drawing=off)
+        fi
+      else
+        # Fallback if no focused icon match
+        args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_color=0xffcba6f7 background.border_width=1.5 icon="$sid" icon.color=0xffcba6f7 icon.padding_left=8 icon.padding_right=4 label="$raw_icons" label.color=0xffcdd6f4 label.drawing=on label.padding_right=8)
+      fi
     else
-      args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xffcba6f7 background.border_width=0 icon.color=0xff11111b label.color=0xff11111b label="" label.drawing=off icon.padding_left=8 icon.padding_right=8)
+      # Empty focused workspace
+      args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_color=0xffcba6f7 background.border_width=1.5 icon="$sid" icon.color=0xffcba6f7 icon.padding_left=8 icon.padding_right=8 label="" label.drawing=off)
     fi
-  elif [[ -n "$icons" ]]; then
-    # Inactive workspace WITH windows: Dark pill with app icons
-    args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_width=1 background.border_color=0x22ffffff icon.color=0xffcdd6f4 label.color=0xffcdd6f4 label="$icons" label.drawing=on icon.padding_left=8 icon.padding_right=4 label.padding_right=8)
+  elif [[ -n "$raw_icons" ]]; then
+    # Inactive Workspace with windows: all icons dimmed / low contrast
+    args+=(--set "space.$sid" drawing=on background.drawing=on background.color=0xee181825 background.border_width=1 background.border_color=0x22ffffff icon="$sid" icon.color=0x88cdd6f4 icon.padding_left=8 icon.padding_right=4 label="$raw_icons" label.color=0x55cdd6f4 label.drawing=on label.padding_right=8)
   else
-    # Inactive workspace WITHOUT windows (Empty): Dimmed subtle marker
+    # Inactive empty workspace
     if [[ "$sid" == "S" ]]; then
       args+=(--set "space.$sid" drawing=off)
     else
-      args+=(--set "space.$sid" drawing=on background.drawing=off background.border_width=0 icon.color=0x44cdd6f4 label="" label.drawing=off icon.padding_left=6 icon.padding_right=6)
+      args+=(--set "space.$sid" drawing=on background.drawing=off background.border_width=0 icon="$sid" icon.color=0x44cdd6f4 icon.padding_left=6 icon.padding_right=6 label="" label.drawing=off)
     fi
   fi
 done
