@@ -31,6 +31,27 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Instant layout switch on F18 (physical left_control)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "f18",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/lev/.config/sketchybar/bin/get_layout toggle"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "Control Spotify in Chrome PWA via Media Keys (without Apple Music)",
                         "manipulators": [
                             {
