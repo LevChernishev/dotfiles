@@ -110,8 +110,8 @@ BAR_ARGS+=(
         label.color=0xffcdd6f4
         drawing=off
         update_freq=2
-        click_script="osascript /Users/lev/.config/karabiner/scripts/spotify_chrome.scpt playpause"
-        script="$PLUGIN_DIR/spotify.sh"
+        click_script="/opt/homebrew/bin/nowplaying-cli togglePlayPause && /Users/lev/.config/sketchybar/plugins/media.sh"
+        script="$PLUGIN_DIR/media.sh"
   --subscribe spotify spotify_change
 )
 
