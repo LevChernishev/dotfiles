@@ -31,7 +31,7 @@ while IFS='|' read -r ws app; do
   elif [[ ! " ${ws_icons[$ws]} " == *" $icon "* ]]; then
     ws_icons[$ws]+=" $icon"
   fi
-done < <(/opt/homebrew/bin/aerospace list-windows --all --format '%{workspace}|%{app-name}' 2>/dev/null)
+done < <(/Users/lev/.config/sketchybar/bin/spatial_windows 2>/dev/null)
 
 echo " ${(k)ws_icons} " > /tmp/sketchybar_occupied_spaces
 
