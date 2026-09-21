@@ -1,22 +1,35 @@
 #!/bin/zsh
 
-RAW=$(/opt/homebrew/bin/nowplaying-cli get --json title artist playbackRate clientBundleIdentifier 2>/dev/null)
+ITEM="spotify"
+if /opt/homebrew/bin/sketchybar --query media >/dev/null 2>&1; then
+  ITEM="media"
+fi
 
-if [[ -z "$RAW" ]]; then
-  /opt/homebrew/bin/sketchybar --set media drawing=off 2>/dev/null || /opt/homebrew/bin/sketchybar --set spotify drawing=off 2>/dev/null
+# 1. OPTIMISTIC INSTANT CLICK HANDLER (< 10ms)
+if [[ "$1" == "click" ]]; then
+  QUERY=$(/opt/homebrew/bin/sketchybar --query "$ITEM" 2>/dev/null)
+  if [[ "$QUERY" == *'"value": "󰏤"'* ]]; then
+    # Was paused -> immediately flip to playing state
+    /opt/homebrew/bin/sketchybar --set "$ITEM" icon="󰓇" icon.color=0xffa6e3a1 background.border_color=0xffa6e3a1 label.color=0xffcdd6f4
+  else
+    # Was playing -> immediately flip to paused state
+    /opt/homebrew/bin/sketchybar --set "$ITEM" icon="󰏤" icon.color=0x88fab387 background.border_color=0x22ffffff label.color=0x66cdd6f4
+  fi
+  # Dispatch toggle asynchronously in background, then re-sync
+  ( /opt/homebrew/bin/nowplaying-cli togglePlayPause && sleep 0.15 && /Users/lev/.config/sketchybar/plugins/media.sh sync ) >/dev/null 2>&1 &
   exit 0
 fi
 
-# Parse safely with jq into tab-separated variables
-IFS=$'\t' read -r TITLE ARTIST RATE BUNDLE <<< "$(/opt/homebrew/bin/jq -r '
-  if .title == null or .title == "" then 
-    "EMPTY" 
-  else 
-    "\(.title)\t\(.artist // "")\t\(.playbackRate // 0)\t\(.clientBundleIdentifier // "")" 
-  end' <<< "$RAW")"
+# 2. QUERY NOW PLAYING (Pure zsh array parsing without jq)
+RAW=("${(@f)$(/opt/homebrew/bin/nowplaying-cli get title artist playbackRate clientBundleIdentifier 2>/dev/null)}")
 
-if [[ "$TITLE" == "EMPTY" || -z "$TITLE" ]]; then
-  /opt/homebrew/bin/sketchybar --set media drawing=off 2>/dev/null || /opt/homebrew/bin/sketchybar --set spotify drawing=off 2>/dev/null
+TITLE="${RAW[1]}"
+ARTIST="${RAW[2]}"
+RATE="${RAW[3]}"
+BUNDLE="${RAW[4]}"
+
+if [[ "$TITLE" == "null" || -z "$TITLE" ]]; then
+  /opt/homebrew/bin/sketchybar --set "$ITEM" drawing=off
   exit 0
 fi
 
@@ -45,21 +58,15 @@ else
 fi
 
 # Compose display text: "Title • Artist" or "Title"
-if [[ -n "$ARTIST" && "$ARTIST" != "$TITLE" && "$ARTIST" != "YouTube" ]]; then
+if [[ -n "$ARTIST" && "$ARTIST" != "null" && "$ARTIST" != "$TITLE" && "$ARTIST" != "YouTube" ]]; then
   DISPLAY_TEXT="${TITLE} • ${ARTIST}"
 else
   DISPLAY_TEXT="${TITLE}"
 fi
 
-# Truncate if too long (max 30 chars)
-if (( ${#DISPLAY_TEXT} > 30 )); then
-  DISPLAY_TEXT="${DISPLAY_TEXT[1,28]}…"
-fi
-
-# Target item name (support both media and spotify)
-ITEM="media"
-if ! /opt/homebrew/bin/sketchybar --query media >/dev/null 2>&1; then
-  ITEM="spotify"
+# Truncate if too long (max 28 chars)
+if (( ${#DISPLAY_TEXT} > 28 )); then
+  DISPLAY_TEXT="${DISPLAY_TEXT[1,26]}…"
 fi
 
 if [[ "$RATE" == "1" ]]; then
@@ -73,7 +80,7 @@ if [[ "$RATE" == "1" ]]; then
     label="$DISPLAY_TEXT" \
     label.color=0xffcdd6f4
 else
-  # PAUSED: DO NOT HIDE! Show pause indicator, dimmed colors, preserve title
+  # PAUSED: DO NOT HIDE! Show pause indicator, dimmed colors, keep track name
   /opt/homebrew/bin/sketchybar --set "$ITEM" \
     drawing=on \
     icon="󰏤" \

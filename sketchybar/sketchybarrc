@@ -109,8 +109,8 @@ BAR_ARGS+=(
         label.padding_right=8
         label.color=0xffcdd6f4
         drawing=off
-        update_freq=2
-        click_script="/opt/homebrew/bin/nowplaying-cli togglePlayPause && /Users/lev/.config/sketchybar/plugins/media.sh"
+        update_freq=1
+        click_script="$PLUGIN_DIR/media.sh click"
         script="$PLUGIN_DIR/media.sh"
   --subscribe spotify spotify_change
 )
