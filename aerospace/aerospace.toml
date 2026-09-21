@@ -4,7 +4,7 @@
 config-version = 2
 
 # Автозапуск и горячая перезагрузка
-start-at-login = false
+start-at-login = true
 auto-reload-config = true
 
 # Нормализация контейнеров
