@@ -42,3 +42,4 @@ cask "dbeaver-community"
 cask "monitorcontrol"
 cask "keka"
 cask "onlyoffice"
+# cask "clash-verge-rev" # Installed via install.sh until Homebrew PR #288935 is rolled out

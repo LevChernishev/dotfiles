@@ -47,23 +47,21 @@ else
     exit 1
 fi
 
-# 4. Hiddify (from GitHub Releases DMG)
-echo -e "\n${GREEN}[4/7] Checking Hiddify...${NC}"
-if [ ! -d "/Applications/Hiddify.app" ] && [ ! -d "$HOME/Applications/Hiddify.app" ]; then
-    echo -e "${YELLOW}Downloading and installing latest Hiddify DMG...${NC}"
-    HIDDIFY_DMG_URL=$(curl -s https://api.github.com/repos/hiddify/hiddify-app/releases/latest | grep "browser_download_url.*Hiddify-MacOS.dmg" | head -n1 | cut -d '"' -f 4)
-    if [ -n "$HIDDIFY_DMG_URL" ]; then
-        curl -Lo /tmp/Hiddify.dmg "$HIDDIFY_DMG_URL"
-        hdiutil attach /tmp/Hiddify.dmg -nobrowse -mountpoint /tmp/hiddify_mount
-        sudo cp -R /tmp/hiddify_mount/Hiddify.app /Applications/
-        hdiutil detach /tmp/hiddify_mount
-        rm -f /tmp/Hiddify.dmg
-        echo -e "Hiddify installed to /Applications/Hiddify.app."
-    else
-        echo -e "${YELLOW}Could not resolve Hiddify DMG URL. You can download it from: https://github.com/hiddify/hiddify-app/releases${NC}"
-    fi
+# 4. Clash Verge Rev
+echo -e "\n${GREEN}[4/7] Checking Clash Verge Rev...${NC}"
+if [ ! -d "/Applications/Clash Verge.app" ] && [ ! -d "$HOME/Applications/Clash Verge.app" ]; then
+    echo -e "${YELLOW}Installing Clash Verge Rev...${NC}"
+    brew install --cask clash-verge-rev 2>/dev/null || {
+        curl -Lo /tmp/Clash.Verge.dmg "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_aarch64.dmg"
+        hdiutil attach /tmp/Clash.Verge.dmg -nobrowse -mountpoint /tmp/clash_mount
+        cp -R "/tmp/clash_mount/Clash Verge.app" /Applications/
+        hdiutil detach /tmp/clash_mount
+        rm -f /tmp/Clash.Verge.dmg
+        xattr -dr com.apple.quarantine "/Applications/Clash Verge.app" 2>/dev/null || true
+    }
+    echo -e "Clash Verge Rev installed to /Applications/Clash Verge.app."
 else
-    echo -e "Hiddify is already installed."
+    echo -e "Clash Verge Rev is already installed."
 fi
 
 # 5. Shell symlinks (Zsh & dotfiles)
