@@ -71,6 +71,12 @@ killall Dock 2>/dev/null || true
 # Переключение языка по Caps Lock
 defaults write -g TISRomanSwitchState -int 1
 
+# Настройки Finder: вид списком, строка пути и строка состояния
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+killall Finder 2>/dev/null || true
+
 echo ""
 echo "========================================="
 echo "     Setup complete successfully!        "

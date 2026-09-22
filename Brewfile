@@ -4,6 +4,7 @@ tap "nikitabobko/tap", trusted: true
 brew "displayplacer"
 brew "fd"
 brew "lazygit"
+brew "lazysql"
 brew "mole"
 brew "neovim"
 brew "ripgrep"
