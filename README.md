@@ -36,10 +36,17 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 - **[Neovim](https://neovim.io/) with [AstroNvim v4](https://astronvim.com/)** — Modern modal editor with built-in LSP & Treesitter.
 - **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server.
 - **[Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev)** — VPN & TUN proxy client.
+- **Shell & Terminal Enhancements**:
+  - **[Starship](https://starship.rs/)** — Cross-shell prompt in Catppuccin Mocha colors with Git status & execution time.
+  - **zsh-syntax-highlighting** — Real-time command syntax highlighting (green/red validation).
+  - **zsh-autosuggestions** — Fish-like history suggestions completed via `→` or `Ctrl+E`.
+  - **[zoxide](https://github.com/ajeetdsouza/zoxide)** — Smart directory jumping (`z <folder>`).
+  - **[fzf](https://github.com/junegunn/fzf)** — Interactive fuzzy finder for history (`Ctrl+R`) and files (`Ctrl+T`).
 - **CLI Utilities**:
   - `ripgrep` — Fast regex code search for terminal & Neovim.
   - `fd` — Simple, fast alternative to `find`.
   - `lazygit` — Terminal UI for git.
+  - `lazysql` — Terminal UI for SQL and PostgreSQL.
   - `displayplacer` — Multi-display resolutions and arrangements.
   - `mole` — System cleanup utility.
 - **Font**: FiraCode Nerd Font for editor and terminal glyphs.
@@ -54,10 +61,11 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 ├── ghostty/            # Ghostty terminal styling & font
 ├── linearmouse/        # LinearMouse acceleration & scroll settings
 ├── nvim/               # AstroNvim v4 template & Catppuccin theme
-├── Brewfile            # Minimal Homebrew bundle manifest
+├── starship/           # Starship prompt configuration (Catppuccin Mocha)
+├── Brewfile            # Homebrew bundle manifest
 ├── install.sh          # Idempotent bootstrap script
 ├── gitconfig           # Git user identity and default branch
-└── zshrc               # Vanilla Zsh with Homebrew & Postgres PATH
+└── zshrc               # Zsh with shared history, plugins, fzf & starship
 ```
 
 ---

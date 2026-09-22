@@ -61,6 +61,8 @@ ln -sfn "$DIR/aerospace"   "$HOME/.config/aerospace"
 ln -sfn "$DIR/ghostty"     "$HOME/.config/ghostty"
 ln -sfn "$DIR/linearmouse" "$HOME/.config/linearmouse"
 ln -sfn "$DIR/nvim"        "$HOME/.config/nvim"
+ln -sfn "$DIR/starship"    "$HOME/.config/starship"
+ln -sf  "$DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 
 # 6. Настройки macOS
 echo "Configuring macOS..."

@@ -9,7 +9,7 @@ background-blur-radius = 0
 
 # Шрифт
 font-family = "FiraCode Nerd Font"
-font-size = 14
+font-size = 20
 
 # Внутренние отступы (padding)
 window-padding-x = 12

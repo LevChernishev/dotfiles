@@ -1,5 +1,12 @@
 tap "nikitabobko/tap", trusted: true
 
+# Shell & Terminal Enhancements
+brew "fzf"
+brew "starship"
+brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
 # CLI Tools
 brew "displayplacer"
 brew "fd"
