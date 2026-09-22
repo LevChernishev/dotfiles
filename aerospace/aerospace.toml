@@ -80,6 +80,10 @@ if.app-id = 'com.liguangming.Shadowrocket'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'io.github.clash-verge-rev.clash-verge-rev'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.apple.QuickTimePlayerX'
 run = 'layout floating'
 
