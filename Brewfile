@@ -1,5 +1,4 @@
 # Taps
-tap "homebrew/bundle"
 tap "nikitabobko/tap"
 
 # CLI & TUI Tools (Ghostty extras & dev environment)
