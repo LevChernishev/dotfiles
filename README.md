@@ -1,12 +1,12 @@
-# 🛠️ Lev's macOS Dotfiles & Setup
+# 🛠️ Lev's Minimal macOS Dotfiles
 
-A lean, minimal development environment for macOS. Designed for maximum speed, keyboard-driven navigation, and zero unnecessary bloat.
+A pure, zero-bloat developer environment for macOS. Built strictly around upstream defaults with zero unnecessary maintenance overhead.
 
 ## 🎯 Philosophy
 
-- **Leverage Defaults**: Keep configurations clean and close to upstream defaults to avoid maintenance debt.
-- **Terminal & Keyboard First**: Fast navigation with AeroSpace, Ghostty, Neovim, and Zsh.
-- **Zero Hacks**: Everything is installed via official Homebrew packages and configured through standard XDG directories.
+- **True Upstream Defaults**: Let tools do what their creators designed them to do. Avoid over-customization ("ricing").
+- **Bare Minimum Toolset**: Only what is strictly necessary — window management, terminal, editor, VPN, database, and mouse scrolling.
+- **Instant Speed**: Shell opens in milliseconds without heavy plugin frameworks.
 
 ---
 
@@ -19,49 +19,23 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 ```
 
 ### What `install.sh` does:
-1. Installs Apple Xcode Command Line Tools (if missing).
-2. Installs Homebrew (if missing).
-3. Installs all packages and applications via `brew bundle`.
-4. Creates standard XDG directories (`~/.config`, `~/.local/state`, etc.).
-5. Symlinks root dotfiles to `$HOME` and app configurations to `~/.config/`.
-6. Pre-syncs Neovim plugins headlessly.
-7. Applies optimal macOS system defaults via `macos.sh`.
+1. Installs Homebrew (if missing).
+2. Installs core packages via `brew bundle`.
+3. Symlinks app configurations to `~/.config/` and dotfiles to `$HOME`.
+4. Configures macOS essentials (AeroSpace spaces fix and Caps Lock input source switching).
 
 ---
 
 ## 📦 What Gets Installed
 
-### 🪟 Window & Input Management
 - **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** — Tiling window manager for macOS.
 - **[LinearMouse](https://linearmouse.app/)** — Disables mouse acceleration, enables linear scrolling distance.
-
-### 💻 Terminal & Shell
-- **[Ghostty](https://ghostty.org/)** — GPU-accelerated terminal with Catppuccin Mocha theme.
-- **Zsh** with:
-  - `starship` (minimal prompt)
-  - `zsh-vi-mode` (modal editing)
-  - `zsh-autosuggestions` & `zsh-syntax-highlighting`
-  - `fzf` & `zoxide` (fuzzy finding & directory jumping)
-
-### 🧑‍💻 Code & Editor
-- **[Neovim](https://neovim.io/) with [AstroNvim v4](https://astronvim.com/)** — full-featured, community-maintained Neovim IDE with LSP, Treesitter, and modal navigation out of the box.
-
-### 🐘 Databases
-- **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server for macOS.
-- Custom `~/.psqlrc` with rich prompts, unicode borders, timing, and monitoring macros.
-
-### 🧰 CLI Utilities
-- `git-delta` (syntax-highlighting pager for git)
-- `lazygit` (terminal git client)
-- `eza` (modern `ls` replacement)
-- `bat` (`cat` clone with syntax highlighting)
-- `ripgrep` & `fd` (lightning-fast search tools)
-- `jq`, `gh`, `python`, `uv`, `node`
-
-### 📱 Applications
-- **Clash Verge Rev** (proxy & TUN manager)
-- **Firefox** (web browser)
-- **Postgres.app** (database server)
+- **[Ghostty](https://ghostty.org/)** — GPU-accelerated terminal with tabs and Catppuccin Mocha.
+- **[Neovim](https://neovim.io/) with [AstroNvim v4](https://astronvim.com/)** — Modern modal editor with built-in LSP & Treesitter.
+- **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server.
+- **[Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev)** — VPN & TUN proxy client.
+- **[Mole](https://github.com/twpayne/mole)** — System cleanup utility.
+- **Font**: FiraCode Nerd Font for editor and terminal glyphs.
 
 ---
 
@@ -69,19 +43,14 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 
 ```text
 ~/.dotfiles/
-├── aerospace/      # AeroSpace tiling configuration
-├── ghostty/        # Ghostty terminal styling & font settings
-├── git/            # Global gitignore patterns
-├── linearmouse/    # LinearMouse acceleration settings
-├── nvim/           # Neovim (AstroNvim v4 with Catppuccin Mocha)
-├── Brewfile        # Minimal Homebrew bundle manifest
-├── install.sh      # Idempotent bootstrap script
-├── macos.sh        # System defaults (AeroSpace, key repeat, Finder, Dock)
-├── starship.toml   # Starship prompt configuration
-├── zshrc           # Shell aliases, history, and plugin hooks
-├── zshenv          # XDG base directory specification
-├── gitconfig       # Git user info, delta pager, and diff3
-└── psqlrc          # PostgreSQL interactive shell setup
+├── aerospace/          # AeroSpace tiling configuration
+├── ghostty/            # Ghostty terminal styling & font
+├── linearmouse/        # LinearMouse acceleration & scroll settings
+├── nvim/               # AstroNvim v4 template & Catppuccin theme
+├── Brewfile            # Minimal Homebrew bundle manifest
+├── install.sh          # Idempotent bootstrap script
+├── gitconfig           # Git user identity and default branch
+└── zshrc               # Vanilla Zsh with Homebrew & Postgres PATH
 ```
 
 ---
@@ -91,5 +60,4 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 After running `install.sh`:
 1. **Accessibility Permissions**: Open *System Settings → Privacy & Security → Accessibility* and enable **AeroSpace** and **LinearMouse**.
 2. **Postgres.app**: Launch Postgres.app once to initialize the default cluster on port 5432.
-3. **Caps Lock**: Open *System Settings → Keyboard → Input Sources* and enable *"Use Caps Lock to switch to and from ABC"*.
-4. **GitHub CLI**: Run `gh auth login` to link git credentials.
+3. **Log Out & Log Back In**: Ensures macOS keyboard input daemon applies the Caps Lock language switch.
