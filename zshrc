@@ -23,11 +23,8 @@ function zvm_config() {
 
 source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-# Интеграция fzf (Ctrl+T для поиска файлов)
+# Интеграция fzf (Ctrl+T для поиска файлов, Ctrl+R для поиска по истории)
 eval "$(fzf --zsh)"
-
-# Интеграция atuin (умная история команд по Ctrl+R и стрелке вверх)
-eval "$(atuin init zsh)"
 
 # Интеграция zoxide (быстрая навигация z <папка>)
 eval "$(zoxide init zsh)"
