@@ -28,13 +28,20 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 
 ## 📦 What Gets Installed
 
-- **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** — Tiling window manager for macOS.
+- **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** — Tiling window manager for macOS (GUI app & CLI).
 - **[LinearMouse](https://linearmouse.app/)** — Disables mouse acceleration, enables linear scrolling distance.
+- **[MonitorControl](https://github.com/MonitorControl/MonitorControl)** — Controls external monitor brightness & volume.
 - **[Ghostty](https://ghostty.org/)** — GPU-accelerated terminal with tabs and Catppuccin Mocha.
+- **[Firefox](https://www.mozilla.org/firefox/)** — Fast, private web browser.
 - **[Neovim](https://neovim.io/) with [AstroNvim v4](https://astronvim.com/)** — Modern modal editor with built-in LSP & Treesitter.
 - **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server.
 - **[Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev)** — VPN & TUN proxy client.
-- **[Mole](https://github.com/twpayne/mole)** — System cleanup utility.
+- **CLI Utilities**:
+  - `ripgrep` — Fast regex code search for terminal & Neovim.
+  - `fd` — Simple, fast alternative to `find`.
+  - `lazygit` — Terminal UI for git.
+  - `displayplacer` — Multi-display resolutions and arrangements.
+  - `mole` — System cleanup utility.
 - **Font**: FiraCode Nerd Font for editor and terminal glyphs.
 
 ---

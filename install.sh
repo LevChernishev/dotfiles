@@ -12,24 +12,30 @@ if ! command -v brew &>/dev/null; then
   eval "$($BREW_BIN shellenv)"
 fi
 
-# 2. Установка пакетов из Brewfile (Ghostty, Postgres, LinearMouse, Neovim, Mole, Font)
+# 2. Установка пакетов из Brewfile
 echo "Installing packages from Brewfile..."
 brew bundle --file="$DIR/Brewfile"
 
-# 3. Установка AeroSpace
+# 3. Проверка и настройка AeroSpace (приложение + CLI)
 echo "Checking AeroSpace..."
-if [ ! -d "/Applications/AeroSpace.app" ]; then
-  echo "Installing AeroSpace..."
-  brew tap nikitabobko/tap 2>/dev/null || true
-  brew install --cask --no-quarantine nikitabobko/tap/aerospace 2>/dev/null || {
+if [ ! -d "/Applications/AeroSpace.app" ] || ! command -v aerospace &>/dev/null; then
+  echo "Configuring AeroSpace..."
+  brew trust nikitabobko/tap 2>/dev/null || true
+  brew install --cask --no-quarantine nikitabobko/tap/aerospace --force 2>/dev/null || {
     echo "Falling back to direct AeroSpace download..."
     curl -fsSL -o /tmp/aerospace.zip "https://github.com/nikitabobko/AeroSpace/releases/download/v0.21.3-Beta/AeroSpace-v0.21.3-Beta.zip"
     unzip -qo /tmp/aerospace.zip -d /tmp/aerospace_extracted
     cp -R /tmp/aerospace_extracted/*/AeroSpace.app /Applications/ 2>/dev/null || cp -R /tmp/aerospace_extracted/AeroSpace.app /Applications/
+    AERO_BIN="$(find /tmp/aerospace_extracted -type f -name "aerospace" 2>/dev/null | head -n 1)"
+    if [[ -n "$AERO_BIN" ]]; then
+      mkdir -p /opt/homebrew/bin
+      cp "$AERO_BIN" /opt/homebrew/bin/aerospace 2>/dev/null || true
+      chmod +x /opt/homebrew/bin/aerospace 2>/dev/null || true
+    fi
     rm -rf /tmp/aerospace*
     xattr -dr com.apple.quarantine "/Applications/AeroSpace.app" 2>/dev/null || true
   }
-  echo "AeroSpace installed."
+  echo "AeroSpace ready."
 fi
 
 # 4. Установка Clash Verge Rev (рабочая стабильная версия v2.5.2)
@@ -66,9 +72,9 @@ killall Dock 2>/dev/null || true
 defaults write -g TISRomanSwitchState -int 1
 
 echo ""
-echo "==========================================="
-echo "     Setup complete successfully!          "
-echo "==========================================="
+echo "========================================="
+echo "     Setup complete successfully!        "
+echo "========================================="
 echo ""
 echo "Next steps:"
 echo "1. System Settings -> Privacy & Security -> Accessibility: Enable AeroSpace & LinearMouse."
