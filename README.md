@@ -48,28 +48,20 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 
 ### 🐘 Databases
 - **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server for macOS.
-- **[DBeaver](https://dbeaver.io/)** — Universal database GUI client.
-- **`lazysql`** — Terminal UI for database queries and exploration.
-- **`pgformatter`** — Automatic SQL formatting via `pg_format`.
 - Custom `~/.psqlrc` with rich prompts, unicode borders, timing, and monitoring macros.
 
 ### 🧰 CLI Utilities
-- `displayplacer` (multi-monitor resolution, frequency & position manager)
 - `git-delta` (syntax-highlighting pager for git)
 - `lazygit` (terminal git client)
-- `yazi` (blazing fast terminal file manager)
 - `eza` (modern `ls` replacement)
 - `bat` (`cat` clone with syntax highlighting)
-- `btop` (resource monitor)
 - `ripgrep` & `fd` (lightning-fast search tools)
-- `jq`, `gh`, `python`, `uv`, `node`, `mole`
+- `jq`, `gh`, `python`, `uv`, `node`
 
 ### 📱 Applications
-- **Firefox** (web browser)
-- **MonitorControl** (external display brightness control)
-- **Keka** (archive manager)
-- **OnlyOffice** (document editing)
 - **Clash Verge Rev** (proxy & TUN manager)
+- **Firefox** (web browser)
+- **Postgres.app** (database server)
 
 ---
 
@@ -78,13 +70,11 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfil
 ```text
 ~/.dotfiles/
 ├── aerospace/      # AeroSpace tiling configuration
-├── btop/           # Resource monitor theme & settings
 ├── ghostty/        # Ghostty terminal styling & font settings
 ├── git/            # Global gitignore patterns
 ├── linearmouse/    # LinearMouse acceleration settings
-├── nvim/           # Neovim init.lua & lazy-lock.json
-├── yazi/           # Yazi terminal file manager
-├── Brewfile        # Complete Homebrew bundle manifest
+├── nvim/           # Neovim (AstroNvim v4 with Catppuccin Mocha)
+├── Brewfile        # Minimal Homebrew bundle manifest
 ├── install.sh      # Idempotent bootstrap script
 ├── macos.sh        # System defaults (AeroSpace, key repeat, Finder, Dock)
 ├── starship.toml   # Starship prompt configuration

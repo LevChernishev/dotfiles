@@ -21,11 +21,7 @@ alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
 
-# 5. Vi-режим и интеграция с fzf
-function zvm_config() {
-  ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
-}
-
+# 5. Vi-режим (дефолтный insert-режим, Esc для перехода в normal mode)
 function zvm_after_init() {
   eval "$(fzf --zsh)"
 }
@@ -43,13 +39,12 @@ fi
 # 6. Интеграция zoxide (быстрая навигация z <папка>)
 eval "$(zoxide init zsh)"
 
-# 7. Алиасы для современных утилит
+# 7. Алиасы
 alias ls="eza --icons"
 alias ll="eza -l --icons --git"
 alias la="eza -la --icons --git"
 alias tree="eza --tree --icons"
-
-alias cat="bat --paging=never"
+alias cat="bat --plain --paging=never"
 alias lg="lazygit"
 
 # 8. PATH

@@ -45,7 +45,7 @@ ln -sf "$DIR/psqlrc"    "$HOME/.psqlrc"
 
 # 6. Симлинки папок конфигураций в ~/.config/
 echo "Linking apps into ~/.config..."
-for config_dir in aerospace btop ghostty git lazygit lazysql linearmouse nvim yazi; do
+for config_dir in aerospace ghostty git linearmouse nvim; do
   if [[ -d "$DIR/$config_dir" ]]; then
     ln -sfn "$DIR/$config_dir" "$HOME/.config/$config_dir"
   fi

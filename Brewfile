@@ -1,7 +1,7 @@
 # Taps
 tap "nikitabobko/tap"
 
-# CLI & TUI Tools (Ghostty extras & dev environment)
+# Shell & Core CLI Tools
 brew "starship"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
@@ -10,24 +10,20 @@ brew "fzf"
 brew "zoxide"
 brew "eza"
 brew "bat"
-brew "lazygit"
-brew "lazysql"
-brew "yazi"
-brew "btop"
 brew "ripgrep"
 brew "fd"
 brew "jq"
 brew "gh"
-brew "neovim"
 brew "git-delta"
+brew "lazygit"
+
+# Development Runtimes & Neovim
+brew "neovim"
 brew "node"
-brew "displayplacer"
-brew "pgformatter"
 brew "python"
 brew "uv"
-brew "mole"
 
-# Fonts (Nerd Font for Ghostty, Starship, Yazi, Neovim)
+# Fonts
 cask "font-fira-code-nerd-font"
 
 # Window & Input Management
@@ -37,9 +33,5 @@ cask "linearmouse"
 # GUI Applications
 cask "ghostty"
 cask "firefox"
-cask "postgres-app"
-cask "dbeaver-community"
-cask "monitorcontrol"
-cask "keka"
-cask "onlyoffice"
 cask "clash-verge-rev"
+cask "postgres-app"

@@ -40,43 +40,11 @@ if.app-id = 'com.apple.archiveutility'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'com.aone.keka'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.calculator'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.ActivityMonitor'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-id = 'com.postgresapp.Postgres2'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'app.monitorcontrol.MonitorControl'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-id = 'com.lujjjh.LinearMouse'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.nuebling.mac-mouse-fix'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'org.pqrs.Karabiner-Elements.Settings'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'org.pqrs.Karabiner-EventViewer'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.liguangming.Shadowrocket'
 run = 'layout floating'
 
 [[on-window-detected]]
