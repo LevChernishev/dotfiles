@@ -15,7 +15,7 @@ echo -e "${BLUE}    macOS Environment Setup & Installer    ${NC}"
 echo -e "${BLUE}===========================================${NC}\n"
 
 # 1. Xcode Command Line Tools
-echo -e "${GREEN}[1/8] Checking Xcode Command Line Tools...${NC}"
+echo -e "${GREEN}[1/7] Checking Xcode Command Line Tools...${NC}"
 if ! xcode-select -p &>/dev/null; then
     echo -e "${YELLOW}Installing Xcode Command Line Tools...${NC}"
     xcode-select --install
@@ -26,7 +26,7 @@ else
 fi
 
 # 2. Homebrew
-echo -e "\n${GREEN}[2/8] Checking Homebrew...${NC}"
+echo -e "\n${GREEN}[2/7] Checking Homebrew...${NC}"
 if ! command -v brew &>/dev/null; then
     echo -e "${YELLOW}Installing Homebrew...${NC}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -37,7 +37,7 @@ else
 fi
 
 # 3. Brewfile packages & apps
-echo -e "\n${GREEN}[3/8] Installing packages and apps from Brewfile...${NC}"
+echo -e "\n${GREEN}[3/7] Installing packages and apps from Brewfile...${NC}"
 if [ -f "$DIR/Brewfile" ]; then
     brew bundle --file="$DIR/Brewfile"
 else
@@ -46,7 +46,7 @@ else
 fi
 
 # 4. Hiddify (from GitHub Releases)
-echo -e "\n${GREEN}[4/8] Checking Hiddify...${NC}"
+echo -e "\n${GREEN}[4/7] Checking Hiddify...${NC}"
 if [ ! -d "/Applications/Hiddify.app" ]; then
     echo -e "${YELLOW}Downloading and installing latest Hiddify...${NC}"
     HIDDIFY_PKG_URL=$(curl -s https://api.github.com/repos/hiddify/hiddify-app/releases/latest | grep "browser_download_url.*Hiddify-MacOS-Installer.pkg" | head -n1 | cut -d '"' -f 4)
