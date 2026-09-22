@@ -24,6 +24,7 @@ brew "node"
 brew "displayplacer"
 brew "pgformatter"
 brew "python"
+brew "uv"
 brew "mole"
 
 # Fonts (Nerd Font for Ghostty, Starship, Yazi, Neovim)
@@ -41,4 +42,4 @@ cask "dbeaver-community"
 cask "monitorcontrol"
 cask "keka"
 cask "onlyoffice"
-# cask "clash-verge-rev" # Installed via install.sh until Homebrew PR #288935 is rolled out
+cask "clash-verge-rev"

@@ -1,35 +1,49 @@
+# 1. Prompt (Starship)
 eval "$(starship init zsh)"
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Включение стандартного автодополнения по Tab
+# 2. История команд
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+export HISTSIZE=50000
+export SAVEHIST=50000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+
+# 3. Автодополнение по Tab
 autoload -Uz compinit && compinit -u
 zstyle ':completion:*' menu select
 
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-
-# Перенаправление вызовов vim и vi на neovim
+# 4. Редактор по умолчанию и алиасы
+export EDITOR="nvim"
+export VISUAL="nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
 
-# Назначение Neovim системным редактором по умолчанию
-export EDITOR="nvim"
-export VISUAL="nvim"
-# Настройка vi-режима (по умолчанию Normal mode)
+# 5. Vi-режим и интеграция с fzf
 function zvm_config() {
   ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
 }
 
-source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+function zvm_after_init() {
+  eval "$(fzf --zsh)"
+}
 
-# Интеграция fzf (Ctrl+T для поиска файлов, Ctrl+R для поиска по истории)
-eval "$(fzf --zsh)"
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
 
-# Интеграция zoxide (быстрая навигация z <папка>)
+if [[ -f "$HOMEBREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+fi
+
+if [[ -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+# 6. Интеграция zoxide (быстрая навигация z <папка>)
 eval "$(zoxide init zsh)"
 
-# Алиасы для современных утилит
+# 7. Алиасы для современных утилит
 alias ls="eza --icons"
 alias ll="eza -l --icons --git"
 alias la="eza -la --icons --git"
@@ -38,6 +52,10 @@ alias tree="eza --tree --icons"
 alias cat="bat --paging=never"
 alias lg="lazygit"
 
-# Postgres.app CLI tools
-export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
+# 8. PATH
+export PATH="$HOME/.local/bin:${CARGO_HOME:-$HOME/.local/share/cargo}/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
+# 9. Синтаксическая подсветка (всегда загружается последней)
+if [[ -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi

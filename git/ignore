@@ -1,0 +1,17 @@
+# macOS artifacts
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Editor & IDE artifacts
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary / Local environment
+.env.local
+.env.*.local

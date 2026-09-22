@@ -4,11 +4,7 @@
     {
       "if" : {
         "device" : {
-          "category" : "mouse",
-          "productID" : "0xfb09",
-          "productName" : "IO Aurora",
-          "serialNumber" : "528502505529",
-          "vendorID" : "0x3554"
+          "category" : "mouse"
         }
       },
       "pointer" : {

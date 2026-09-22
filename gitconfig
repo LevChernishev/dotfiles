@@ -1,9 +1,16 @@
 [user]
 	name = Lev
 	email = chernishevlev@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
 [core]
 	editor = nvim
 	pager = delta
+	excludesfile = ~/.config/git/ignore
 [interactive]
 	diffFilter = delta --color-only
 [delta]

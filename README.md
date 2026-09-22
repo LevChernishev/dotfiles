@@ -15,14 +15,17 @@ A lean, minimal development environment for macOS. Designed for maximum speed, k
 Open **Terminal.app** on a fresh macOS installation and run:
 
 ```bash
-git clone https://github.com/LevChernishev/dotfiles.git ~/.config && ~/.config/install.sh
+git clone https://github.com/LevChernishev/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
 ```
 
 ### What `install.sh` does:
 1. Installs Apple Xcode Command Line Tools (if missing).
 2. Installs Homebrew (if missing).
 3. Installs all packages and applications via `brew bundle`.
-4. Symlinks standard dotfiles (`.zshrc`, `.zshenv`, `.gitconfig`, `.psqlrc`) to `$HOME`.
+4. Creates standard XDG directories (`~/.config`, `~/.local/state`, etc.).
+5. Symlinks root dotfiles to `$HOME` and app configurations to `~/.config/`.
+6. Pre-syncs Neovim plugins headlessly.
+7. Applies optimal macOS system defaults via `macos.sh`.
 
 ---
 
@@ -59,7 +62,7 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.config && ~/.config/i
 - `bat` (`cat` clone with syntax highlighting)
 - `btop` (resource monitor)
 - `ripgrep` & `fd` (lightning-fast search tools)
-- `jq`, `gh`, `python`, `node`, `mole`
+- `jq`, `gh`, `python`, `uv`, `node`, `mole`
 
 ### 📱 Applications
 - **Firefox** (web browser)
@@ -73,17 +76,19 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.config && ~/.config/i
 ## 📁 Repository Structure
 
 ```text
-~/.config/
+~/.dotfiles/
 ├── aerospace/      # AeroSpace tiling configuration
+├── btop/           # Resource monitor theme & settings
 ├── ghostty/        # Ghostty terminal styling & font settings
+├── git/            # Global gitignore patterns
 ├── linearmouse/    # LinearMouse acceleration settings
 ├── nvim/           # Neovim init.lua & lazy-lock.json
-├── zed/            # Zed editor settings
 ├── yazi/           # Yazi terminal file manager
-├── btop/           # Resource monitor theme & settings
 ├── Brewfile        # Complete Homebrew bundle manifest
-├── install.sh      # 30-line idempotent bootstrap script
-├── zshrc           # Shell aliases and plugin hooks
+├── install.sh      # Idempotent bootstrap script
+├── macos.sh        # System defaults (AeroSpace, key repeat, Finder, Dock)
+├── starship.toml   # Starship prompt configuration
+├── zshrc           # Shell aliases, history, and plugin hooks
 ├── zshenv          # XDG base directory specification
 ├── gitconfig       # Git user info, delta pager, and diff3
 └── psqlrc          # PostgreSQL interactive shell setup
