@@ -12,11 +12,40 @@ if ! command -v brew &>/dev/null; then
   eval "$($BREW_BIN shellenv)"
 fi
 
-# 2. Установка пакетов из Brewfile
-echo "Installing packages..."
+# 2. Установка пакетов из Brewfile (Ghostty, Postgres, LinearMouse, Neovim, Mole, Font)
+echo "Installing packages from Brewfile..."
 brew bundle --file="$DIR/Brewfile"
 
-# 3. Симлинки конфигураций
+# 3. Установка AeroSpace
+echo "Checking AeroSpace..."
+if [ ! -d "/Applications/AeroSpace.app" ]; then
+  echo "Installing AeroSpace..."
+  brew tap nikitabobko/tap 2>/dev/null || true
+  brew install --cask --no-quarantine nikitabobko/tap/aerospace 2>/dev/null || {
+    echo "Falling back to direct AeroSpace download..."
+    curl -fsSL -o /tmp/aerospace.zip "https://github.com/nikitabobko/AeroSpace/releases/download/v0.21.3-Beta/AeroSpace-v0.21.3-Beta.zip"
+    unzip -qo /tmp/aerospace.zip -d /tmp/aerospace_extracted
+    cp -R /tmp/aerospace_extracted/*/AeroSpace.app /Applications/ 2>/dev/null || cp -R /tmp/aerospace_extracted/AeroSpace.app /Applications/
+    rm -rf /tmp/aerospace*
+    xattr -dr com.apple.quarantine "/Applications/AeroSpace.app" 2>/dev/null || true
+  }
+  echo "AeroSpace installed."
+fi
+
+# 4. Установка Clash Verge Rev (рабочая стабильная версия v2.5.2)
+if [ ! -d "/Applications/Clash Verge.app" ]; then
+  echo "Installing Clash Verge Rev v2.5.2..."
+  CLASH_URL="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_aarch64.dmg"
+  curl -fsSL -o /tmp/Clash.Verge.dmg "$CLASH_URL"
+  hdiutil attach /tmp/Clash.Verge.dmg -nobrowse -mountpoint /tmp/clash_mount
+  cp -R "/tmp/clash_mount/Clash Verge.app" /Applications/
+  hdiutil detach /tmp/clash_mount
+  rm -f /tmp/Clash.Verge.dmg
+  xattr -dr com.apple.quarantine "/Applications/Clash Verge.app" 2>/dev/null || true
+  echo "Clash Verge Rev installed."
+fi
+
+# 5. Симлинки конфигураций
 echo "Linking dotfiles..."
 mkdir -p "$HOME/.config"
 ln -sf "$DIR/zshrc"     "$HOME/.zshrc"
@@ -27,7 +56,7 @@ ln -sfn "$DIR/ghostty"     "$HOME/.config/ghostty"
 ln -sfn "$DIR/linearmouse" "$HOME/.config/linearmouse"
 ln -sfn "$DIR/nvim"        "$HOME/.config/nvim"
 
-# 4. Настройки macOS
+# 6. Настройки macOS
 echo "Configuring macOS..."
 # Отключение автоперемешивания столов (критично для AeroSpace)
 defaults write com.apple.dock mru-spaces -bool false
@@ -37,7 +66,11 @@ killall Dock 2>/dev/null || true
 defaults write -g TISRomanSwitchState -int 1
 
 echo ""
-echo "Setup complete! Next steps:"
+echo "==========================================="
+echo "     Setup complete successfully!          "
+echo "==========================================="
+echo ""
+echo "Next steps:"
 echo "1. System Settings -> Privacy & Security -> Accessibility: Enable AeroSpace & LinearMouse."
 echo "2. Open Postgres.app once to initialize default database cluster."
 echo "3. Restart terminal or log out to ensure all macOS defaults take effect."
