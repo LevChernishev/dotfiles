@@ -23,6 +23,7 @@ brew "jq"
 brew "git-delta"
 brew "gh"
 brew "neovim"
+brew "node"
 brew "displayplacer"
 
 # Fonts (Nerd Font for Ghostty, Starship, Yazi, Neovim)

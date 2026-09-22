@@ -15,7 +15,7 @@ echo -e "${BLUE}    macOS Environment Setup & Installer    ${NC}"
 echo -e "${BLUE}===========================================${NC}\n"
 
 # 1. Xcode Command Line Tools
-echo -e "${GREEN}[1/7] Checking Xcode Command Line Tools...${NC}"
+echo -e "${GREEN}[1/8] Checking Xcode Command Line Tools...${NC}"
 if ! xcode-select -p &>/dev/null; then
     echo -e "${YELLOW}Installing Xcode Command Line Tools...${NC}"
     xcode-select --install
@@ -26,7 +26,7 @@ else
 fi
 
 # 2. Homebrew
-echo -e "\n${GREEN}[2/7] Checking Homebrew...${NC}"
+echo -e "\n${GREEN}[2/8] Checking Homebrew...${NC}"
 if ! command -v brew &>/dev/null; then
     echo -e "${YELLOW}Installing Homebrew...${NC}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -37,7 +37,7 @@ else
 fi
 
 # 3. Brewfile packages & apps
-echo -e "\n${GREEN}[3/7] Installing packages and apps from Brewfile...${NC}"
+echo -e "\n${GREEN}[3/8] Installing packages and apps from Brewfile...${NC}"
 if [ -f "$DIR/Brewfile" ]; then
     brew bundle --file="$DIR/Brewfile"
 else
@@ -46,7 +46,7 @@ else
 fi
 
 # 4. Hiddify (from GitHub Releases)
-echo -e "\n${GREEN}[4/7] Checking Hiddify...${NC}"
+echo -e "\n${GREEN}[4/8] Checking Hiddify...${NC}"
 if [ ! -d "/Applications/Hiddify.app" ]; then
     echo -e "${YELLOW}Downloading and installing latest Hiddify...${NC}"
     HIDDIFY_PKG_URL=$(curl -s https://api.github.com/repos/hiddify/hiddify-app/releases/latest | grep "browser_download_url.*Hiddify-MacOS-Installer.pkg" | head -n1 | cut -d '"' -f 4)
@@ -63,14 +63,14 @@ else
 fi
 
 # 5. Shell symlinks (Zsh & dotfiles)
-echo -e "\n${GREEN}[5/7] Linking dotfiles and shell config...${NC}"
+echo -e "\n${GREEN}[5/8] Linking dotfiles and shell config...${NC}"
 if [ -f "$DIR/zshrc" ]; then
     ln -sf "$DIR/zshrc" "$HOME/.zshrc"
     echo -e "Linked $DIR/zshrc -> ~/.zshrc"
 fi
 
 # 6. macOS System Preferences
-echo -e "\n${GREEN}[6/7] Configuring macOS system settings...${NC}"
+echo -e "\n${GREEN}[6/8] Configuring macOS system settings...${NC}"
 # Нативное переключение языка по Caps Lock
 defaults write -g TISRomanSwitchState 1
 
@@ -95,7 +95,7 @@ defaults write com.apple.dock autohide-time-modifier -float 0.15
 echo -e "macOS defaults applied."
 
 # 7. Antigravity & Open AG Patcher
-echo -e "\n${GREEN}[7/7] Setting up Open AG Patcher...${NC}"
+echo -e "\n${GREEN}[7/8] Setting up Open AG Patcher...${NC}"
 PATCHER_DIR="$HOME/Projects/open-antigravity-patcher"
 if [ ! -d "$PATCHER_DIR" ]; then
     echo -e "${YELLOW}Cloning open-antigravity-patcher...${NC}"
@@ -111,6 +111,18 @@ if [ -f "$PATCHER_DIR/Open_AG_Patcher_macOS" ]; then
     echo -e "${BLUE}Open_AG_Patcher_macOS is ready.${NC}"
     echo -e "To patch Antigravity & Antigravity IDE, run:"
     echo -e "  ${YELLOW}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC}"
+fi
+
+# 8. AstroNvim
+echo -e "\n${GREEN}[8/8] Setting up AstroNvim...${NC}"
+NVIM_DIR="$HOME/.config/nvim"
+if [ ! -d "$NVIM_DIR" ] || [ ! -f "$NVIM_DIR/init.lua" ]; then
+    echo -e "${YELLOW}Cloning AstroNvim template to $NVIM_DIR...${NC}"
+    git clone --depth 1 https://github.com/AstroNvim/template "$NVIM_DIR"
+    rm -rf "$NVIM_DIR/.git"
+    echo -e "AstroNvim installed to $NVIM_DIR."
+else
+    echo -e "Neovim configuration already exists in $NVIM_DIR."
 fi
 
 echo -e "\n${GREEN}===========================================${NC}"
