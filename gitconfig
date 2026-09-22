@@ -1,0 +1,17 @@
+[user]
+	name = Lev
+	email = chernishevlev@gmail.com
+[core]
+	editor = nvim
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
+	line-numbers = true
+	syntax-theme = "Catppuccin Mocha"
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default

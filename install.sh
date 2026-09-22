@@ -31,7 +31,9 @@ if ! command -v brew &>/dev/null; then
     echo -e "${YELLOW}Installing Homebrew...${NC}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+    if ! grep -q 'brew shellenv' "$HOME/.zprofile" 2>/dev/null; then
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+    fi
 else
     echo -e "Homebrew is already installed."
 fi
@@ -66,10 +68,12 @@ fi
 
 # 5. Shell symlinks (Zsh & dotfiles)
 echo -e "\n${GREEN}[5/7] Linking dotfiles and shell config...${NC}"
-if [ -f "$DIR/zshrc" ]; then
-    ln -sf "$DIR/zshrc" "$HOME/.zshrc"
-    echo -e "Linked $DIR/zshrc -> ~/.zshrc"
-fi
+for file in zshrc zshenv gitconfig psqlrc; do
+    if [ -f "$DIR/$file" ]; then
+        ln -sf "$DIR/$file" "$HOME/.$file"
+        echo -e "Linked $DIR/$file -> ~/.$file"
+    fi
+done
 
 # 6. Antigravity & Open AG Patcher
 echo -e "\n${GREEN}[6/7] Setting up Open AG Patcher...${NC}"
@@ -90,22 +94,27 @@ if [ -f "$PATCHER_DIR/Open_AG_Patcher_macOS" ]; then
     echo -e "  ${YELLOW}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC}"
 fi
 
-# 7. AstroNvim
-echo -e "\n${GREEN}[7/7] Setting up AstroNvim...${NC}"
-NVIM_DIR="$HOME/.config/nvim"
-if [ ! -d "$NVIM_DIR" ] || [ ! -f "$NVIM_DIR/init.lua" ]; then
-    echo -e "${YELLOW}Cloning AstroNvim template to $NVIM_DIR...${NC}"
-    git clone --depth 1 https://github.com/AstroNvim/template "$NVIM_DIR"
-    rm -rf "$NVIM_DIR/.git"
-    echo -e "AstroNvim installed to $NVIM_DIR."
+# 7. Neovim plugins sync
+echo -e "\n${GREEN}[7/7] Pre-installing Neovim plugins (Lazy.nvim)...${NC}"
+if command -v nvim &>/dev/null; then
+    echo -e "Syncing Neovim plugins headlessly..."
+    nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+    echo -e "Neovim plugins synchronized."
 else
-    echo -e "Neovim configuration already exists in $NVIM_DIR."
+    echo -e "${YELLOW}Neovim binary not found, skipping plugin sync.${NC}"
 fi
 
 echo -e "\n${GREEN}===========================================${NC}"
 echo -e "${GREEN}    Installation & Configuration Complete! ${NC}"
 echo -e "${GREEN}===========================================${NC}\n"
-echo -e "Next steps:"
-echo -e "1. Run ${YELLOW}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC} to patch Antigravity apps."
-echo -e "2. Launch AeroSpace and grant Accessibility permissions."
-echo -e "3. Launch LinearMouse and enable 'Disable scrolling acceleration'."
+echo -e "${BLUE}Next steps to finalize setup:${NC}"
+echo -e "1. ${YELLOW}Permissions:${NC} Open System Settings -> Privacy & Security -> Accessibility:"
+echo -e "   - Enable ${GREEN}AeroSpace${NC}"
+echo -e "   - Enable ${GREEN}LinearMouse${NC}"
+echo -e "2. ${YELLOW}PostgreSQL:${NC} Open ${GREEN}Postgres.app${NC} once to initialize local cluster on port 5432."
+echo -e "3. ${YELLOW}GitHub Auth:${NC} Run ${GREEN}gh auth login${NC} to authenticate Git & CLI."
+echo -e "4. ${YELLOW}SSH Key:${NC} If not already generated: ${GREEN}ssh-keygen -t ed25519 -C \"chernishevlev@gmail.com\"${NC}"
+echo -e "5. ${YELLOW}Language Switch:${NC} System Settings -> Keyboard -> Input Sources -> Enable 'Use Caps Lock to switch'."
+if [ -f "$PATCHER_DIR/Open_AG_Patcher_macOS" ]; then
+    echo -e "6. ${YELLOW}Antigravity:${NC} Run ${GREEN}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC} to patch Antigravity apps."
+fi

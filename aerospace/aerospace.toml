@@ -60,6 +60,10 @@ if.app-id = 'app.monitorcontrol.MonitorControl'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.lujjjh.LinearMouse'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.nuebling.mac-mouse-fix'
 run = 'layout floating'
 

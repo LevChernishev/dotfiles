@@ -1,0 +1,25 @@
+# Тема оформления
+theme = "Catppuccin Mocha" 
+
+# Уровень непрозрачности фона (от 0.0 — полностью прозрачный, до 1.0 — сплошной)
+background-opacity = 1.0
+
+# Размытие фона macOS за окном терминала (радиус размытия в пикселях)
+background-blur-radius = 0
+
+# Шрифт
+font-family = "FiraCode Nerd Font"
+font-size = 14
+
+# Внутренние отступы (padding)
+window-padding-x = 12
+window-padding-y = 10
+window-padding-balance = true
+
+# Курсор
+cursor-style = "block"
+cursor-style-blink = true
+
+# Стиль заголовка окна
+macos-titlebar-style = "tabs"
+
