@@ -40,9 +40,8 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.config && ~/.config/i
   - `zsh-autosuggestions` & `zsh-syntax-highlighting`
   - `fzf` & `zoxide` (fuzzy finding & directory jumping)
 
-### 🧑‍💻 Code & Editors
-- **[Neovim](https://neovim.io/)** — Fast modal editor configured with `lazy.nvim`, `vim-dadbod-ui` (SQL client), `fzf-lua`, `oil.nvim`, and Tree-sitter.
-- **[Zed](https://zed.dev/)** — High-performance GUI code editor.
+### 🧑‍💻 Code & Editor
+- **[Neovim](https://neovim.io/) with [AstroNvim v4](https://astronvim.com/)** — full-featured, community-maintained Neovim IDE with LSP, Treesitter, and modal navigation out of the box.
 
 ### 🐘 Databases
 - **[Postgres.app](https://postgresapp.com/)** — Native PostgreSQL server for macOS.
@@ -52,6 +51,7 @@ git clone https://github.com/LevChernishev/dotfiles.git ~/.config && ~/.config/i
 - Custom `~/.psqlrc` with rich prompts, unicode borders, timing, and monitoring macros.
 
 ### 🧰 CLI Utilities
+- `displayplacer` (multi-monitor resolution, frequency & position manager)
 - `git-delta` (syntax-highlighting pager for git)
 - `lazygit` (terminal git client)
 - `yazi` (blazing fast terminal file manager)

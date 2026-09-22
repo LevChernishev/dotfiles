@@ -35,7 +35,6 @@ cask "linearmouse"
 
 # GUI Applications
 cask "ghostty"
-cask "zed"
 cask "firefox"
 cask "postgres-app"
 cask "dbeaver-community"
