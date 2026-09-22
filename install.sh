@@ -63,39 +63,14 @@ else
 fi
 
 # 5. Shell symlinks (Zsh & dotfiles)
-echo -e "\n${GREEN}[5/8] Linking dotfiles and shell config...${NC}"
+echo -e "\n${GREEN}[5/7] Linking dotfiles and shell config...${NC}"
 if [ -f "$DIR/zshrc" ]; then
     ln -sf "$DIR/zshrc" "$HOME/.zshrc"
     echo -e "Linked $DIR/zshrc -> ~/.zshrc"
 fi
 
-# 6. macOS System Preferences
-echo -e "\n${GREEN}[6/8] Configuring macOS system settings...${NC}"
-# Нативное переключение языка по Caps Lock
-defaults write -g TISRomanSwitchState 1
-
-# Отключение задержки зажатия клавиш (нужно для Neovim/Vim h/j/k/l)
-defaults write -g ApplePressAndHoldEnabled -bool false
-
-# Максимальная скорость повтора клавиш
-defaults write -g InitialKeyRepeat -int 10
-defaults write -g KeyRepeat -int 1
-
-# Показывать скрытые файлы в Finder
-defaults write com.apple.finder AppleShowAllFiles -bool true
-
-# Не создавать .DS_Store на сетевых и внешних накопителях
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-
-# Быстрая анимация скрытия Dock
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0.15
-
-echo -e "macOS defaults applied."
-
-# 7. Antigravity & Open AG Patcher
-echo -e "\n${GREEN}[7/8] Setting up Open AG Patcher...${NC}"
+# 6. Antigravity & Open AG Patcher
+echo -e "\n${GREEN}[6/7] Setting up Open AG Patcher...${NC}"
 PATCHER_DIR="$HOME/Projects/open-antigravity-patcher"
 if [ ! -d "$PATCHER_DIR" ]; then
     echo -e "${YELLOW}Cloning open-antigravity-patcher...${NC}"
@@ -113,8 +88,8 @@ if [ -f "$PATCHER_DIR/Open_AG_Patcher_macOS" ]; then
     echo -e "  ${YELLOW}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC}"
 fi
 
-# 8. AstroNvim
-echo -e "\n${GREEN}[8/8] Setting up AstroNvim...${NC}"
+# 7. AstroNvim
+echo -e "\n${GREEN}[7/7] Setting up AstroNvim...${NC}"
 NVIM_DIR="$HOME/.config/nvim"
 if [ ! -d "$NVIM_DIR" ] || [ ! -f "$NVIM_DIR/init.lua" ]; then
     echo -e "${YELLOW}Cloning AstroNvim template to $NVIM_DIR...${NC}"
@@ -132,4 +107,3 @@ echo -e "Next steps:"
 echo -e "1. Run ${YELLOW}sudo $PATCHER_DIR/Open_AG_Patcher_macOS${NC} to patch Antigravity apps."
 echo -e "2. Launch AeroSpace and grant Accessibility permissions."
 echo -e "3. Launch LinearMouse and enable 'Disable scrolling acceleration'."
-echo -e "4. Restart your Mac to ensure all system defaults and services take effect."
