@@ -21,6 +21,9 @@ brew "gh"
 brew "neovim"
 brew "node"
 brew "displayplacer"
+brew "pgformatter"
+brew "python"
+brew "mole"
 
 # Fonts (Nerd Font for Ghostty, Starship, Yazi, Neovim)
 cask "font-fira-code-nerd-font"
