@@ -45,18 +45,20 @@ else
     exit 1
 fi
 
-# 4. Hiddify (from GitHub Releases)
+# 4. Hiddify (from GitHub Releases DMG)
 echo -e "\n${GREEN}[4/7] Checking Hiddify...${NC}"
-if [ ! -d "/Applications/Hiddify.app" ]; then
-    echo -e "${YELLOW}Downloading and installing latest Hiddify...${NC}"
-    HIDDIFY_PKG_URL=$(curl -s https://api.github.com/repos/hiddify/hiddify-app/releases/latest | grep "browser_download_url.*Hiddify-MacOS-Installer.pkg" | head -n1 | cut -d '"' -f 4)
-    if [ -n "$HIDDIFY_PKG_URL" ]; then
-        curl -Lo /tmp/Hiddify.pkg "$HIDDIFY_PKG_URL"
-        sudo installer -pkg /tmp/Hiddify.pkg -target /
-        rm -f /tmp/Hiddify.pkg
-        echo -e "Hiddify installed."
+if [ ! -d "/Applications/Hiddify.app" ] && [ ! -d "$HOME/Applications/Hiddify.app" ]; then
+    echo -e "${YELLOW}Downloading and installing latest Hiddify DMG...${NC}"
+    HIDDIFY_DMG_URL=$(curl -s https://api.github.com/repos/hiddify/hiddify-app/releases/latest | grep "browser_download_url.*Hiddify-MacOS.dmg" | head -n1 | cut -d '"' -f 4)
+    if [ -n "$HIDDIFY_DMG_URL" ]; then
+        curl -Lo /tmp/Hiddify.dmg "$HIDDIFY_DMG_URL"
+        hdiutil attach /tmp/Hiddify.dmg -nobrowse -mountpoint /tmp/hiddify_mount
+        sudo cp -R /tmp/hiddify_mount/Hiddify.app /Applications/
+        hdiutil detach /tmp/hiddify_mount
+        rm -f /tmp/Hiddify.dmg
+        echo -e "Hiddify installed to /Applications/Hiddify.app."
     else
-        echo -e "${YELLOW}Could not resolve Hiddify pkg URL. You can download it from: https://github.com/hiddify/hiddify-app/releases${NC}"
+        echo -e "${YELLOW}Could not resolve Hiddify DMG URL. You can download it from: https://github.com/hiddify/hiddify-app/releases${NC}"
     fi
 else
     echo -e "Hiddify is already installed."
